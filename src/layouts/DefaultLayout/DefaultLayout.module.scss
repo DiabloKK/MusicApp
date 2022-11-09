@@ -1,0 +1,71 @@
+.wrapper {
+    position: relative;
+    width: 1540px;
+    height: 1094px;
+    background: linear-gradient(90deg, #373658 49.32%, #000000 96.79%);
+    border-radius: 50px;
+}
+.playArea {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 132px 20px;
+    gap: 20px;
+
+    position: absolute;
+    width: 494px;
+    height: 1074px;
+    left: 120px;
+    top: 10px;
+    background: #373658;
+    border-radius: 46px;
+    background-color: none;
+    transition: 0.5s;
+    .btn-arrow {
+        position: absolute;
+        right: 20px;
+        top: 50px;
+        padding: 5px 8px;
+        border-radius: 50%;
+        border: none;
+        box-shadow: 0px 3px 10px rgba(196, 196, 196, 0.25);
+    }
+}
+.SongsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 42px;
+    gap: 30px;
+
+    position: absolute;
+    width: 916px;
+    height: 1074px;
+    right: 10px;
+    top: 10px;
+
+    background: #fff;
+    border-radius: 46px;
+    transition: 0.5s;
+    .btn-arrow {
+        position: absolute;
+        left: 20px;
+        top: 50px;
+        padding: 5px 8px;
+        border-radius: 50%;
+        border: none;
+        box-shadow: 0px 3px 10px rgba(196, 196, 196, 0.25);
+    }
+}
+.hidden {
+    transform: translate(970px, 0px);
+}
+.fullsite {
+    width: 1410px;
+    z-index: 1;
+    transition: 0.5s;
+}
+.content {
+    width: 100%;
+}

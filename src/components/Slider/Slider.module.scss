@@ -1,0 +1,86 @@
+.section {
+    width: 100%;
+    height: 330px;
+}
+
+.icon {
+    font-size: 3rem;
+    color: hsl(21, 62%, 45%);
+}
+
+.section-center {
+    margin: 0 auto;
+    margin-top: 4rem;
+    width: 100%;
+    height: 330px;
+    text-align: center;
+    position: relative;
+    display: flex;
+    overflow: hidden;
+}
+
+article {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 330px;
+    opacity: 0;
+    transition: all 0.3s linear;
+}
+
+article.activeSlide {
+    opacity: 1;
+    transform: translateX(0);
+}
+article.lastSlide {
+    transform: translateX(-100%);
+}
+article.nextSlide {
+    transform: translateX(100%);
+}
+.name {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    color: black;
+    left: 2px;
+}
+.person-img {
+    width: 100%;
+
+    object-fit: cover;
+    height: 330px;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 29.99%),
+        linear-gradient(270deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 31.43%);
+    border-radius: 20px;
+}
+
+.prev,
+.next {
+    position: absolute;
+    top: 160px;
+    transform: translateY(-50%);
+    background: hsl(210, 22%, 49%);
+    color: #fff;
+    width: 1.25rem;
+    height: 1.25rem;
+    display: grid;
+    place-items: center;
+    border-color: transparent;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: all 0.3s linear;
+}
+.prev:hover,
+.next:hover {
+    background: hsl(21, 62%, 45%);
+}
+.prev {
+    left: 0;
+}
+.next {
+    right: 0;
+}

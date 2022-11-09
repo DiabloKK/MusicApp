@@ -1,0 +1,35 @@
+.wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 10px;
+
+    width: 100%;
+    height: 60px;
+    justify-content: space-between;
+
+    /* Inside auto layout */
+    transition: 0.5s;
+}
+
+.fullsite {
+    gap: 564px;
+}
+
+.header-tiltle {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 37px;
+    line-height: 45px;
+    /* primary_color */
+
+    color: rgba(45, 46, 55, 0.9);
+}
+.Search-Add {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 50px;
+}
