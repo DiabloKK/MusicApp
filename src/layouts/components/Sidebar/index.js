@@ -8,8 +8,8 @@ import React, { useEffect } from 'react';
 const cx = classNames.bind(styles);
 function Sidebar() {
     useEffect(() => {
-        const allLink = document.querySelectorAll('.Sidebar_menu-items__NZNK9 .Sidebar_item__0ZzQ6');
-        const action = document.querySelector('.Sidebar_action__LKz67');
+        const allLink = document.querySelectorAll(`.${cx('menu-items')} .${cx('item')}`);
+        const action = document.querySelector(`.${cx('action')}`);
         function changeMenuActive() {
             allLink.forEach((n) => n.classList.remove('active'));
             this.classList.add('active');
