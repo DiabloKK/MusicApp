@@ -1,7 +1,7 @@
 .wrapper {
     position: relative;
-    width: 1540px;
-    height: 1094px;
+    width: 100%;
+    height: 100vh;
     background: linear-gradient(90deg, #373658 49.32%, #000000 96.79%);
     border-radius: 50px;
 }
@@ -10,16 +10,16 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 132px 20px;
     gap: 20px;
-
+    border-radius: 46px;
     position: absolute;
-    width: 494px;
-    height: 1074px;
-    left: 120px;
+    width: 30%;
+    min-width: 400px;
+    height: calc(100vh - 20px);
+    left: 100px;
     top: 10px;
     background: #373658;
-    border-radius: 46px;
+
     background-color: none;
     transition: 0.5s;
     .btn-arrow {
@@ -40,8 +40,10 @@
     gap: 30px;
 
     position: absolute;
-    width: 916px;
-    height: 1074px;
+    width: calc(70% - 110px);
+    min-width: 600px;
+
+    height: calc(100vh - 20px);
     right: 10px;
     top: 10px;
 
@@ -59,10 +61,10 @@
     }
 }
 .hidden {
-    transform: translate(970px, 0px);
+    transform: translate(calc(100vw - 110px), 0px);
 }
 .fullsite {
-    width: 1410px;
+    width: calc(100vw - 110px);
     z-index: 1;
     transition: 0.5s;
 }

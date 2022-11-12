@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Search.module.scss';
-import { SearchIcon } from '~/components/icon';
+import { SearchIcon } from '~/assets/icons';
 
 const cx = classNames.bind(styles);
 

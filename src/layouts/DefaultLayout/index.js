@@ -15,7 +15,6 @@ function DefaultLayout({ children }) {
 
     const songPlayCurrent = context.song;
 
-    console.log(songPlayCurrent);
     return (
         <div className={cx('wrapper')}>
             <Sidebar />
@@ -28,7 +27,7 @@ function DefaultLayout({ children }) {
                 >
                     +
                 </button>
-                <MusicPlayer song={songPlayCurrent.song} />
+                <MusicPlayer song={songPlayCurrent} />
             </div>
             <div className={cx('SongsContainer', { fullsite: songsContainerOpen }, { hidden: playAreaOpen })}>
                 <button

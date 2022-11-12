@@ -1,168 +1,76 @@
-import React, { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import styles from './MusicPlayer.module.scss';
-import musics from '~/assets/musics';
-import {
-    FaRegHeart,
-    FaHeart,
-    FaForward,
-    FaStepForward,
-    FaStepBackward,
-    FaBackward,
-    FaPlay,
-    FaPause,
-    FaShareAlt,
-} from 'react-icons/fa';
-import { BsDownload } from 'react-icons/bs';
-
+import moment from 'moment';
+import { useEffect, useRef, useState } from 'react';
+import { Songs } from '~/API/Songs';
+import { BsPlayCircleFill, BsSkipEndFill, BsSkipStartFill, BsShuffle, BsPauseCircleFill } from 'react-icons/bs';
+import { IoIosRepeat } from 'react-icons/io';
+import { ProgressBar, ProgressBarColor } from '~/assets/Progressbar';
 const cx = classNames.bind(styles);
+function MusicPlayer({ song = Songs[1] }) {
+    const [currentime, setCurrentime] = useState(0);
 
-function MusicPlayer({ song = musics.momo7, imgSrc, auto }) {
-    const [isLove, setLove] = useState(false);
-    const [isPlaying, setPlay] = useState(false);
-    //   duration state
-    const [duration, setDuration] = useState(0);
-    const [currentTime, setCurrenttime] = useState(0);
-
-    const audioPlayer = useRef(); //   reference to our audio component
-    const progressBar = useRef(); //   reference to our prgressbar
-    const animationRef = useRef(); //  reference to our animation
+    const [isPlaying, setISPlaying] = useState(false);
+    const progressbarcolor = useRef();
+    const handleTogglePlayMusic = () => {
+        setISPlaying((isPlaying) => !isPlaying);
+    };
 
     useEffect(() => {
-        const seconds = Math.floor(audioPlayer.current.duration);
-        setDuration(seconds);
+        if (isPlaying && currentime < 180) {
+            const timeoutTime = setTimeout(() => {
+                setCurrentime(currentime + 1);
 
-        // set max prop with out seconds in input[range]
-        progressBar.current.max = seconds;
-    }, [audioPlayer?.current?.loadedmetada, audioPlayer?.current?.readyState]);
+                let percent = Math.round((currentime * 1000) / 180) / 1000;
 
-    const changePlayPause = () => {
-        const prevValue = isPlaying;
-        setPlay(!prevValue);
+                console.log(percent);
+                progressbarcolor.current.style.cssText = `width: ${percent * 351}px`;
+            }, 1000);
 
-        if (!prevValue) {
-            audioPlayer.current.play();
-            animationRef.current = requestAnimationFrame(whilePlaying);
-        } else {
-            audioPlayer.current.pause();
-            cancelAnimationFrame(animationRef.current);
+            return () => clearTimeout(timeoutTime);
         }
-    };
-
-    const whilePlaying = () => {
-        progressBar.current.value = audioPlayer.current.currentTime;
-        changeCurrentTime();
-        // need to run more than once
-        animationRef.current = requestAnimationFrame(whilePlaying);
-    };
-
-    const calculateTime = (sec) => {
-        const minutes = Math.floor(sec / 60);
-        const returnMin = minutes < 10 ? `0${minutes}` : `${minutes}`;
-        const seconds = Math.floor(sec % 60);
-        const returnSec = seconds < 10 ? `0${seconds}` : `${seconds}`;
-        return `${returnMin} : ${returnSec}`;
-    };
-
-    const changeProgress = () => {
-        audioPlayer.current.currentTime = progressBar.current.value;
-
-        progressBar.current.style.setProperty('width', `${(progressBar.current.value / duration) * 100}%`);
-
-        setCurrenttime(progressBar.current.value);
-
-        changeCurrentTime();
-    };
-
-    const changeCurrentTime = () => {
-        progressBar.current.style.setProperty('width', `${(progressBar.current.value / duration) * 100}%`);
-
-        setCurrenttime(progressBar.current.value);
-    };
-
-    const changeSongLove = () => {
-        setLove(!isLove);
-    };
+    });
 
     return (
         <div className={cx('musicPlayer')}>
-            <div className="songImage">
-                <img src={imgSrc} alt="" />
-            </div>
-            <div className={cx('songAttributes')}>
-                <audio src={song} preload="metadata" ref={audioPlayer} />
-
-                <div className={cx('top')}>
-                    <div className={cx('left')}>
-                        <div className={cx('loved')} onClick={changeSongLove}>
-                            {isLove ? (
-                                <i>
-                                    <FaRegHeart />
-                                </i>
-                            ) : (
-                                <i>
-                                    <FaHeart />
-                                </i>
-                            )}
-                        </div>
-                        <i className={cx('download')}>
-                            <BsDownload />
-                        </i>
-                    </div>
-
-                    <div className={cx('middle')}>
-                        <div className={cx('back')}>
-                            <i>
-                                <FaStepBackward />
-                            </i>
-                            <i>
-                                <FaBackward />
-                            </i>
-                        </div>
-                        <div className={cx('playPause')} onClick={changePlayPause}>
+            <div className={cx('m-container')}>
+                <div className={cx('m-image')}>
+                    <img src={song.imgSrc} alt="" />
+                </div>
+                <div className={cx('m-inf')}>
+                    <p>{song.songName}</p>
+                    <span>{song.artist}</span>
+                </div>
+                <div className={cx('m-control')}>
+                    <IoIosRepeat className={cx('left')} />
+                    <div className={cx('center')}>
+                        <BsSkipStartFill className={cx('back')} />
+                        <span onClick={handleTogglePlayMusic}>
                             {isPlaying ? (
-                                <i>
-                                    <FaPause />
-                                </i>
+                                <BsPauseCircleFill className={cx('play')} />
                             ) : (
-                                <i>
-                                    <FaPlay />
-                                </i>
+                                <BsPlayCircleFill className={cx('play')} />
                             )}
-                        </div>
-                        <div className={cx('forward')}>
-                            <i>
-                                <FaForward />
-                            </i>
-                            <i>
-                                <FaStepForward />
-                            </i>
-                        </div>
-                    </div>
+                        </span>
 
-                    <div className={cx('right')}>
-                        <i>
-                            <FaShareAlt />
-                        </i>
+                        <BsSkipEndFill className={cx('next')} />
+                    </div>
+                    <BsShuffle className={cx('right')} />
+                </div>
+            </div>
+            <div className={cx('m-progressbar')}>
+                <span className={cx('time')}>
+                    <span className="">{moment.utc(currentime * 1000).format('mm:ss')}</span>
+                </span>
+                <div className={cx('progressbarnocolor')}>
+                    <ProgressBar />
+                    <div className={cx('progressbarcolor')} ref={progressbarcolor}>
+                        <ProgressBarColor />
                     </div>
                 </div>
-
-                <div className={cx('bottom')}>
-                    <div className={cx('currentTime')}>{calculateTime(currentTime)}</div>
-                    <input
-                        type="range"
-                        className={cx('progressBar')}
-                        ref={progressBar}
-                        defaultValue="0"
-                        onChange={changeProgress}
-                        autoPlay={auto}
-                    />
-                    <div className={cx('duration')}>
-                        {duration && !isNaN(duration) && calculateTime(duration)
-                            ? duration && !isNaN(duration) && calculateTime(duration)
-                            : '00:00'}
-                    </div>
-                </div>
+                <span className={cx('time')}>
+                    <span>{moment.utc(180 * 1000).format('mm:ss')}</span>
+                </span>
             </div>
         </div>
     );

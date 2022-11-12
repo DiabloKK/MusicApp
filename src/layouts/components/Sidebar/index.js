@@ -1,9 +1,10 @@
 import classNames from 'classnames/bind';
 import styles from './Sidebar.module.scss';
-import icons from '~/assets/icons';
+import { icons } from '~/assets/icons';
 import images from '~/assets/images';
 import { Link } from 'react-router-dom';
 import React, { useEffect } from 'react';
+import menu from './sibebar';
 
 const cx = classNames.bind(styles);
 function Sidebar() {
@@ -11,8 +12,8 @@ function Sidebar() {
         const allLink = document.querySelectorAll(`.${cx('menu-items')} .${cx('item')}`);
         const action = document.querySelector(`.${cx('action')}`);
         function changeMenuActive() {
-            allLink.forEach((n) => n.classList.remove('active'));
-            this.classList.add('active');
+            allLink.forEach((n) => n.classList.remove(cx('active')));
+            this.classList.add(cx('active'));
             action.style.transform = `translate(10px,${this.offsetTop}px)`;
         }
 
@@ -23,7 +24,12 @@ function Sidebar() {
         <aside className={cx('wrapper')}>
             <img className={cx('logo')} src={images.logo} alt="logo" />
             <div className={cx('menu-items')}>
-                <Link to="/" className={cx('item')}>
+                {menu.map((item) => (
+                    <Link key={item.id} to={item.link} className={cx('item')}>
+                        {item.icon}
+                    </Link>
+                ))}
+                {/* <Link to="/" className={cx('item')}>
                     <img src={icons.home} alt="Home" />
                 </Link>
                 <Link to="/musicLiBrary" className={cx('item')}>
@@ -34,7 +40,7 @@ function Sidebar() {
                 </Link>
                 <Link to="/playList" className={cx('item')}>
                     <img src={icons.playList} alt="playList" />
-                </Link>
+                </Link> */}
             </div>
             <div className={cx('action')}></div>
         </aside>

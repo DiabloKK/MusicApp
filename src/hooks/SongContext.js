@@ -4,11 +4,9 @@ const SongContext = createContext();
 
 function SongProvider({ children }) {
     const [song, setSong] = useState(Songs[0]);
-    console.log(song);
+
     const ChangeSong = (songCurrent) => {
-        console.log(songCurrent);
         setSong(songCurrent);
-        console.log(song);
     };
 
     const value = {
