@@ -27,7 +27,7 @@ function DefaultLayout({ children }) {
                 >
                     +
                 </button>
-                <MusicPlayer song={songPlayCurrent} />
+                <MusicPlayer song={songPlayCurrent} fullView={playAreaOpen} />
             </div>
             <div className={cx('SongsContainer', { fullsite: songsContainerOpen }, { hidden: playAreaOpen })}>
                 <button

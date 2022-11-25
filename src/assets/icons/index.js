@@ -214,3 +214,67 @@ export const MusicLiBraryIcon = () => (
         />
     </svg>
 );
+export const AddPlayQueueIcon = () => (
+    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+            d="M15 27.5C21.9036 27.5 27.5 21.9036 27.5 15C27.5 8.09644 21.9036 2.5 15 2.5C8.09644 2.5 2.5 8.09644 2.5 15C2.5 21.9036 8.09644 27.5 15 27.5Z"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        />
+        <path
+            d="M15.4125 21.8125C15.1875 21.8875 14.8 21.8875 14.575 21.8125C12.625 21.15 8.25 18.3625 8.25 13.6375C8.25 11.55 9.925 9.86255 12 9.86255C13.225 9.86255 14.3125 10.45 15 11.375C15.675 10.4625 16.775 9.86255 18 9.86255C20.075 9.86255 21.75 11.55 21.75 13.6375C21.75 18.3625 17.375 21.15 15.4125 21.8125Z"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        />
+    </svg>
+);
+
+export const AddPlayListIcon = () => (
+    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 15H20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M15 20V10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path
+            d="M11.25 27.5H18.75C25 27.5 27.5 25 27.5 18.75V11.25C27.5 5 25 2.5 18.75 2.5H11.25C5 2.5 2.5 5 2.5 11.25V18.75C2.5 25 5 27.5 11.25 27.5Z"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        />
+    </svg>
+);
+export const DeleteIcon = () => (
+    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+            d="M6.25 8.75H23.75V25.5C23.75 26.6046 22.8546 27.5 21.75 27.5H8.25C7.14543 27.5 6.25 26.6046 6.25 25.5V8.75Z"
+            stroke="currentColor"
+            strokeWidth="1.5"
+        />
+        <path d="M12.5 13.75V21.25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M17.5 13.75V21.25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <path
+            d="M11.25 3.5C11.25 2.94772 11.6977 2.5 12.25 2.5H17.75C18.3023 2.5 18.75 2.94772 18.75 3.5V5H11.25V3.5Z"
+            stroke="currentColor"
+            strokeWidth="1.5"
+        />
+        <path
+            d="M3.75 6.875C3.75 5.83947 4.58947 5 5.625 5H24.375C25.4105 5 26.25 5.83947 26.25 6.875V6.875C26.25 7.91053 25.4105 8.75 24.375 8.75H5.625C4.58947 8.75 3.75 7.91053 3.75 6.875V6.875Z"
+            stroke="currentColor"
+            strokeWidth="1.5"
+        />
+    </svg>
+);
+export const UploadFolderIcon = () => (
+    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+            d="M3 6V16.8C3 17.9201 3 18.4801 3.21799 18.908C3.40973 19.2843 3.71547 19.5902 4.0918 19.782C4.51962 20 5.08009 20 6.2002 20H17.8002C18.9203 20 19.48 20 19.9078 19.782C20.2841 19.5902 20.5905 19.2843 20.7822 18.908C21.0002 18.4801 21.0002 17.9201 21.0002 16.8L21.0002 9.20002C21.0002 8.07992 21.0002 7.51986 20.7822 7.09204C20.5905 6.71572 20.2841 6.40973 19.9078 6.21799C19.48 6 18.9201 6 17.8 6H14M3 6H14M3 6C3 4.89543 3.89543 4.5 5 4.5H11.5C12.5004 4.49999 13.3105 5.3103 13.9737 5.97368L14 6M12 10V16M9 13H15"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        />
+    </svg>
+);

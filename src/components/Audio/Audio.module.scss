@@ -81,11 +81,16 @@
 
     color: #2d2e37;
 }
-.icons {
-    margin-right: 30px;
-    icon {
-        width: 20px;
-        height: 20px;
-        background: rgba(45, 46, 55, 0.8);
-    }
+.listIcon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 20px;
+
+    width: 150px;
+    height: 30px;
+    padding: 10px;
+    font-size: 30px;
+    color: #2d2e37;
 }

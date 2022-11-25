@@ -2,7 +2,7 @@ import { HomeIcon, PlayListIcon, PlayQueueIcon, MusicLiBraryIcon } from '~/asset
 
 const menu = [
     { id: 1, title: 'Home', icon: <HomeIcon />, link: '/' },
-    { id: 2, title: 'Music library', icon: <MusicLiBraryIcon />, link: '/musicLiBrary' },
+    { id: 2, title: 'Music library', icon: <MusicLiBraryIcon />, link: '/musicLibrary' },
     { id: 3, title: 'Playqueue', icon: <PlayQueueIcon />, link: '/playQueue' },
     { id: 4, title: 'Playlist', icon: <PlayListIcon />, link: '/playList' },
 ];

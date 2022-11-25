@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './Menu.module.scss';
 import { useEffect } from 'react';
-
+import { Link } from 'react-router-dom';
 const cx = classNames.bind(styles);
 function Menu() {
     useEffect(() => {
@@ -18,13 +18,13 @@ function Menu() {
         <div className={cx('menuList')}>
             <ul>
                 <li>
-                    <a href="#">Songs</a>
+                    <Link to="/musicLibrary/">Songs</Link>
                 </li>
                 <li>
-                    <a href="#">Ablums</a>
+                    <Link to="/musicLibrary/albums">Albums</Link>
                 </li>
                 <li>
-                    <a href="#">Artists</a>
+                    <Link to="/musicLibrary/artists">Artists</Link>
                 </li>
             </ul>
         </div>

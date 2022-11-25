@@ -1,0 +1,9 @@
+.ArtistList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 160px);
+    gap: 45px;
+    overflow-y: auto;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
