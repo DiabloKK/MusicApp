@@ -1,0 +1,22 @@
+.PlayList {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.content {
+    padding-top: 20px;
+    height: calc(100vh - 140px);
+}
+.title {
+    margin: 10px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 31px;
+
+    /* primary_color */
+
+    color: rgba(45, 46, 55, 0.9);
+}

@@ -42,7 +42,6 @@ const Slider = () => {
                     return (
                         <article className={cx(position)} key={id}>
                             <img src={imgSrc} alt={artist} className={cx('person-img')} />
-                            <h4 className={cx('name')}> {songName}</h4>
                         </article>
                     );
                 })}

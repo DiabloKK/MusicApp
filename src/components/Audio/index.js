@@ -9,7 +9,12 @@ const cx = classNames.bind(styles);
 function Audio({ song }) {
     const context = useContext(SongContext);
     return (
-        <div className={cx('Audio')} onClick={() => context.ChangeSong(song)}>
+        <div
+            className={cx('Audio')}
+            onClick={() => {
+                context.ChangeSong(song);
+            }}
+        >
             <div className={cx('in4-Audio')}>
                 <i className={cx('STT')}>{song.id + 1}</i>
                 <img src={song.imgSrc} alt="" />
@@ -20,9 +25,21 @@ function Audio({ song }) {
                 <p className={cx('duration')}> {song.duration}</p>
             </div>
             <div className={cx('listIcon')}>
-                <AddPlayQueueIcon />
-                <DeleteIcon />
-                <AddPlayListIcon />
+                <span
+                    className={cx('icon')}
+                    onClick={(event) => {
+                        alert(';;;;');
+                        event.stopPropagation();
+                    }}
+                >
+                    <AddPlayQueueIcon />
+                </span>
+                <span className={cx('icon')}>
+                    <DeleteIcon />
+                </span>
+                <span className={cx('icon')}>
+                    <AddPlayListIcon />
+                </span>
             </div>
         </div>
     );

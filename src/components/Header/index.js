@@ -4,13 +4,13 @@ import Search from '../Search';
 import styles from './Header.module.scss';
 
 const cx = classNames.bind(styles);
-function Header({ width }) {
+function Header({ name='Music library' }) {
     return (
-        <aside className={cx('wrapper', { fullsite: width })}>
-            <h3 className={cx('header-tiltle')}>Music library</h3>
+        <aside className={cx('wrapper')}>
+            <h3 className={cx('header-tiltle')}>{name}</h3>
             <div className={cx('Search-Add')}>
-                <Search />
-                <Add />
+                <Search  />
+                <Add  label={name==='Home'?'Open':'Add'}/>
             </div>
         </aside>
     );

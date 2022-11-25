@@ -8,6 +8,7 @@
     width: 100%;
     height: 60px;
     cursor: pointer;
+    border-radius: 10px;
 }
 .in4-Audio {
     display: flex;
@@ -93,4 +94,10 @@
     padding: 10px;
     font-size: 30px;
     color: #2d2e37;
+}
+.Audio:hover {
+    background-color: rgba(45, 46, 55, 0.1);
+}
+.icon:hover {
+    color: rgba(43, 73, 222, 0.6);
 }

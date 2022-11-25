@@ -1,6 +1,7 @@
 .AlbumList {
     display: grid;
     grid-template-columns: repeat(auto-fit, 160px);
+    grid-template-rows: repeat(auto-fit, 224px);
     gap: 45px;
     overflow-y: auto;
     justify-content: center;

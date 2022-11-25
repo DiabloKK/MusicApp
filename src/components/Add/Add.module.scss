@@ -14,7 +14,7 @@
     background: rgba(255, 255, 255, 0.2);
     border: 2px solid rgba(45, 46, 55, 0.5);
     border-radius: 10px;
-    cursor: pointer;
+
     .more-container {
         display: flex;
         justify-content: center;
@@ -38,6 +38,7 @@
         color: rgba(45, 46, 55, 0.7);
         align-items: center;
         gap: 10px;
+        cursor: pointer;
     }
     p {
         width: 89px;
@@ -74,11 +75,11 @@ input[type='file'] {
     justify-content: center;
     color: rgba(45, 46, 55, 0.7);
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     height: 50px;
 
     p {
-        width: 89px;
+        width: 100px;
         height: 25px;
 
         font-family: 'Inter';
