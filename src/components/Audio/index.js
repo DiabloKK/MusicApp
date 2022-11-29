@@ -19,8 +19,8 @@ function Audio({ song }) {
                 <i className={cx('STT')}>{song.id}</i>
                 <img src={`data:image/jpeg;base64,${song.Picture}`} alt="" />
                 <div className={cx('name')}>
-                    <h4>{song.Artist}</h4>
-                    <p>{song.Title}</p>
+                    <h4>{song.Title}</h4>
+                    <p>{song.Artist}</p>
                 </div>
                 <p className={cx('duration')}> {song.Duration}</p>
             </div>
