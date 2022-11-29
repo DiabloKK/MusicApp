@@ -1,12 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Slider.module.scss';
 import classNames from 'classnames/bind';
-import { Songs } from '~/API/Songs';
+import { useFileMP3Store } from '~/store/useFileMP3Store';
+
 const cx = classNames.bind(styles);
 
 const Slider = () => {
-    const [listSong] = useState(Songs);
+
+    const {loadListMusic} = useFileMP3Store();
+    const [listSong, setListSong] = useState([]);
     const [index, setIndex] = useState(0);
+
+    useEffect(() => {
+        const load = async () => {
+            const list = await loadListMusic();
+            setListSong(list);
+        }
+    
+        load();
+      }, []);
 
     useEffect(() => {
         const lastIndex = listSong.length - 1;
@@ -31,7 +43,7 @@ const Slider = () => {
         <section className={cx('section')}>
             <div className={cx('section-center')}>
                 {listSong.map((item, indexPeople) => {
-                    const { id, imgSrc, songName, artist } = item;
+                    const { id, Picture, Title, Artist } = item;
                     let position = 'nextSlide';
                     if (indexPeople === index) {
                         position = 'activeSlide';
@@ -41,7 +53,7 @@ const Slider = () => {
                     }
                     return (
                         <article className={cx(position)} key={id}>
-                            <img src={imgSrc} alt={artist} className={cx('person-img')} />
+                            <img src={`data:image/jpeg;base64,${Picture}`} alt={Artist} className={cx('person-img')} />
                         </article>
                     );
                 })}

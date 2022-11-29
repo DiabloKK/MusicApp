@@ -6,6 +6,5 @@ const musics = {
     mono4: require('~/assets/musics/Song4.mp3'),
     mono5: require('~/assets/musics/Song5.mp3'),
     mono6: require('~/assets/musics/Song6.mp3'),
-    momo7: require('C:\\Users\\nhath\\Music\\Playlists\\EmLa-MONOOnionn-7736094.mp3'),
 };
 export default musics;

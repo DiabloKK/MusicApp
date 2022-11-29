@@ -2,16 +2,18 @@ import classNames from 'classnames/bind';
 import styles from './MusicPlayer.module.scss';
 import moment from 'moment';
 import { useEffect, useRef, useState } from 'react';
-import { Songs } from '~/API/Songs';
 import { BsPlayCircleFill, BsSkipEndFill, BsSkipStartFill, BsShuffle, BsPauseCircleFill } from 'react-icons/bs';
 import { IoIosRepeat } from 'react-icons/io';
 import { CiVolumeHigh } from 'react-icons/ci';
+
+
 
 import { ProgressBar, ProgressBarColor } from '~/assets/Progressbar';
 import { AddPlayListIcon, AddPlayQueueIcon, MusicLiBraryIcon } from '~/assets/icons';
 
 const cx = classNames.bind(styles);
-function MusicPlayer({ song = Songs[1], fullView = false }) {
+function MusicPlayer({ song , fullView = false }) {
+
     const [currentime, setCurrentime] = useState(0);
 
     const [isPlaying, setIsPlaying] = useState(false);
@@ -45,11 +47,11 @@ function MusicPlayer({ song = Songs[1], fullView = false }) {
                 <div className={cx('musicPlayer')}>
                     <div className={cx('m-container')}>
                         <div className={cx('m-image')}>
-                            <img src={song.imgSrc} alt="" />
+                            <img src={`data:image/jpeg;base64,${song.Picture}`} alt="" />
                         </div>
                         <div className={cx('m-inf')}>
-                            <p>{song.songName}</p>
-                            <span>{song.artist}</span>
+                            <p>{song.Title}</p>
+                            <span>{song.Artist}</span>
                         </div>
                         <div className={cx('m-control')}>
                             <IoIosRepeat className={cx('left')} />
@@ -85,7 +87,7 @@ function MusicPlayer({ song = Songs[1], fullView = false }) {
                 </div>
             ) : (
                 <div className={cx('musicPlayer_fullView')}>
-                    <img src={song.imgSrc} alt="" />
+                    <img src={`data:image/jpeg;base64,${song.Picture}`} alt="" />
                     <div className={cx('musicPlayerContainer_fullView')}>
                         <div className={cx('center')}>
                             <BsSkipStartFill className={cx('back')} />
@@ -100,10 +102,10 @@ function MusicPlayer({ song = Songs[1], fullView = false }) {
                             <BsSkipEndFill className={cx('next')} />
                         </div>
                         <div className={cx('detailSong')}>
-                            <img src={song.imgSrc} alt="" />
+                            <img src={`data:image/jpeg;base64,${song.Picture}`} alt="" />
                             <div className={cx('m-inf')}>
-                                <p>{song.songName}</p>
-                                <span>{song.artist}</span>
+                                <p>{song.Title}</p>
+                                <span>{song.Artist}</span>
                             </div>
                         </div>
 

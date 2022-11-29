@@ -1,15 +1,29 @@
 import classNames from 'classnames/bind';
 import styles from './AudioList.module.scss';
-import { Songs } from '~/API/Songs';
 import Audio from '../Audio';
 import { useEffect } from 'react';
+import { useFileMP3Store } from '~/store/useFileMP3Store';
+
 import { useState } from 'react';
 import { Albums } from '~/API/Albums';
+
 
 const cx = classNames.bind(styles);
 
 function AudioList() {
-    const [songs, setSongs] = useState(Songs);
+   
+    const {loadListMusic} = useFileMP3Store();
+    const [songs, setSongs] = useState([]);
+
+    useEffect(() => {
+        const load = async () => {
+            const list = await loadListMusic();
+            setSongs(list);
+        }
+    
+        load();
+      }, []);
+
     useEffect(() => {
         const path = window.location.pathname;
         console.log(path);

@@ -16,13 +16,13 @@ function Audio({ song }) {
             }}
         >
             <div className={cx('in4-Audio')}>
-                <i className={cx('STT')}>{song.id + 1}</i>
-                <img src={song.imgSrc} alt="" />
+                <i className={cx('STT')}>{song.id}</i>
+                <img src={`data:image/jpeg;base64,${song.Picture}`} alt="" />
                 <div className={cx('name')}>
-                    <h4>{song.artist}</h4>
-                    <p>{song.songName}</p>
+                    <h4>{song.Artist}</h4>
+                    <p>{song.Title}</p>
                 </div>
-                <p className={cx('duration')}> {song.duration}</p>
+                <p className={cx('duration')}> {song.Duration}</p>
             </div>
             <div className={cx('listIcon')}>
                 <span
