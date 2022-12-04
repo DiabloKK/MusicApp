@@ -35,5 +35,8 @@ export const useFileMP3Store = create((set, get) => ({
     async getValueVolume() {
         const valueVolume = await window.fileMp3API.getValueVolume();
         return valueVolume;
+    },
+    async deleteMusic(url) {
+        await window.fileMp3API.deleteMusic(url);
     }
 }));

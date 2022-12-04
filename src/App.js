@@ -3,8 +3,16 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from './routes';
 import { DefaultLayout } from './layouts';
 import { SongProvider } from '~/hooks/SongContext';
+import { useFileMP3Store } from './store/useFileMP3Store';
 
 function App() {
+
+    const {getValueVolume} = useFileMP3Store();
+    setInterval(async () => {
+    const value = await getValueVolume();
+    document.getElementById("volume").value = parseInt(value);
+    }, 100);
+
     return (
         <Router>
             <SongProvider>

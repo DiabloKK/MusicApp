@@ -1,6 +1,5 @@
 /home/noir/Music/Yeu5.mp3
 /home/noir/Music/Thuong-Nhieu-Hon-La-Noi.mp3
-
 /home/noir/Music/Xin-Dung-Lang-Im.mp3
 /home/noir/Music/Dieu-Anh-Biet.mp3
 /home/noir/Music/Bai-nay-khong-de-di-dien.mp3
@@ -10,4 +9,4 @@
 /home/noir/Music/Suy-Nghi-Trong-.mp3
 /home/noir/Music/Yeu-Em-Dai-Kho.mp3
 /home/noir/Music/Nhu-Vay-Nhe.mp3
-/home/noir/Music/Phia-Sau-Mot-Co-Gai.mp3
+

@@ -28,4 +28,7 @@ contextBridge.exposeInMainWorld('fileMp3API', {
     getValueVolume: () => {
         return ipcRenderer.invoke('get-value-volume');
     },
+    deleteMusic: (url) => {
+        ipcRenderer.invoke('delete-music', url);
+    }
 });

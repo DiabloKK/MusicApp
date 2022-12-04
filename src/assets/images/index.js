@@ -7,5 +7,7 @@ const images = {
     person4: require('~/assets/images/Person4.jpg'),
     person5: require('~/assets/images/Person5.jpg'),
     person6: require('~/assets/images/Person6.jpg'),
+    mute: require('~/assets/images/mute.png'),
+    unmute: require('~/assets/images/volume-up-interface-symbol.png'),
 };
 export default images;
