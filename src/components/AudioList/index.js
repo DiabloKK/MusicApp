@@ -7,22 +7,20 @@ import { useFileMP3Store } from '~/store/useFileMP3Store';
 import { useState } from 'react';
 import { Albums } from '~/API/Albums';
 
-
 const cx = classNames.bind(styles);
 
 function AudioList() {
-   
-    const {loadListMusic} = useFileMP3Store();
+    const { loadListMusic } = useFileMP3Store();
     const [songs, setSongs] = useState([]);
 
     useEffect(() => {
         const load = async () => {
             const list = await loadListMusic();
             setSongs(list);
-        }
-    
+        };
+
         load();
-      }, []);
+    }, []);
 
     useEffect(() => {
         const path = window.location.pathname;
@@ -34,6 +32,11 @@ function AudioList() {
         }
         if (path.includes('musicLibrary/artists/@')) {
             const id = path.slice(23);
+            console.log(Albums.find((song) => song.id === id).Songs);
+            setSongs(Albums.find((song) => song.id === id).Songs);
+        }
+        if (path.includes('playList/@')) {
+            const id = path.slice(11);
             console.log(Albums.find((song) => song.id === id).Songs);
             setSongs(Albums.find((song) => song.id === id).Songs);
         }

@@ -1,7 +1,7 @@
 const routes = {
     home: '/',
     playQueue: '/playQueue',
-    playList: '/playList',
+    playList: '/playList/*',
     musicLiBrary: '/musicLiBrary/*',
     setting: '/setting',
 };
