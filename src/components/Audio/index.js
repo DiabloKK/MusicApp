@@ -4,15 +4,23 @@ import { AddPlayListIcon, AddPlayQueueIcon, DeleteIcon } from '~/assets/icons';
 
 import { SongContext } from '~/hooks/SongContext';
 import { useContext } from 'react';
+import { CiVolumeHigh } from 'react-icons/ci';
 const cx = classNames.bind(styles);
 
 function Audio({ song }) {
     const context = useContext(SongContext);
+
     return (
         <div
-            className={cx('Audio')}
+            className={cx(`Audio`, {
+                active: context.pathSong === window.location.pathname && context.song.id === song.id,
+            })}
             onClick={() => {
                 context.ChangeSong(song);
+                console.log(window.location.pathname);
+                context.ChangePathSong(window.location.pathname);
+
+                console.log(`Audio ${context.pathSong === window.location.pathname ? 'active' : ''}`);
             }}
         >
             <div className={cx('in4-Audio')}>

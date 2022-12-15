@@ -24,7 +24,7 @@ function AudioList() {
 
     useEffect(() => {
         const path = window.location.pathname;
-        console.log(path);
+        //console.log(path);
         if (path.includes('musicLibrary/albums/@')) {
             const id = path.slice(22);
             console.log(Albums.find((song) => song.id === id).Songs);
