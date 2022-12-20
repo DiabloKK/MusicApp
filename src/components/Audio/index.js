@@ -2,6 +2,10 @@ import classNames from 'classnames/bind';
 import styles from './Audio.module.scss';
 import { AddPlayListIcon, AddPlayQueueIcon, DeleteIcon } from '~/assets/icons';
 
+import 'tippy.js/themes/light.css';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
+
 import { SongContext } from '~/hooks/SongContext';
 import { useContext } from 'react';
 import { CiVolumeHigh } from 'react-icons/ci';
@@ -33,21 +37,27 @@ function Audio({ song }) {
                 <p className={cx('duration')}> {song.Duration}</p>
             </div>
             <div className={cx('listIcon')}>
-                <span
-                    className={cx('icon')}
-                    onClick={(event) => {
-                        alert(';;;;');
-                        event.stopPropagation();
-                    }}
-                >
-                    <AddPlayQueueIcon />
-                </span>
-                <span className={cx('icon')}>
-                    <DeleteIcon />
-                </span>
-                <span className={cx('icon')}>
-                    <AddPlayListIcon />
-                </span>
+                <Tippy delay={[0, 200]} content="Add queue" placement="top" theme="light">
+                    <span
+                        className={cx('icon')}
+                        onClick={(event) => {
+                            alert(';;;;');
+                            event.stopPropagation();
+                        }}
+                    >
+                        <AddPlayQueueIcon />
+                    </span>
+                </Tippy>
+                <Tippy delay={[0, 200]} content="Delete" placement="top" theme="light">
+                    <span className={cx('icon')}>
+                        <DeleteIcon />
+                    </span>
+                </Tippy>
+                <Tippy delay={[0, 200]} content="Add Playlist" placement="top" theme="light">
+                    <span className={cx('icon')}>
+                        <AddPlayListIcon />
+                    </span>
+                </Tippy>
             </div>
         </div>
     );

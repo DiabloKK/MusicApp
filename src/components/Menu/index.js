@@ -17,8 +17,10 @@ function Menu() {
     return (
         <div className={cx('menuList')}>
             <ul>
-                <li>
-                    <Link to="/musicLibrary/">Songs</Link>
+                <li className={cx('active')}s>
+                    <Link to="/musicLibrary/" >
+                        Songs
+                    </Link>
                 </li>
                 <li>
                     <Link to="/musicLibrary/albums">Albums</Link>
