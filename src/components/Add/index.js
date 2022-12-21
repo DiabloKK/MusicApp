@@ -7,11 +7,11 @@ import Artist from '../Artist/index';
 
 const cx = classNames.bind(styles);
 function Add({ label = 'Add' }) {
-
-    const {addMusic} = useFileMP3Store();
+    const { addMusic, stopMusic } = useFileMP3Store();
 
     const handle = async (e) => {
-       await addMusic();
+        await addMusic();
+        await stopMusic();
     };
     return (
         <div className={cx('Add-container')}>

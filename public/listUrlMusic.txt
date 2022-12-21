@@ -5,3 +5,5 @@
 /home/hoanqnqu/Music/Phao-hong.mp3
 /home/hoanqnqu/Music/Dem-Ngay-Xa-Em.mp3
 
+/home/hoanqnqu/Music/Cuoi-Thoi.mp3
+
