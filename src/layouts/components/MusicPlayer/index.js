@@ -9,9 +9,13 @@ import { SongContext } from '~/hooks/SongContext';
 
 import { BsPlayCircleFill, BsSkipEndFill, BsSkipStartFill, BsShuffle, BsPauseCircleFill } from 'react-icons/bs';
 import { IoIosRepeat } from 'react-icons/io';
+import ModalDelete from '~/components/ModalDelete';
+import MenuPlaylist from '~/components/MenuPlaylist';
+
 import { CiVolumeHigh, CiVolumeMute } from 'react-icons/ci';
 import { ProgressBar, ProgressBarColor } from '~/assets/Progressbar';
-import { AddPlayListIcon, AddPlayQueueIcon, MusicLiBraryIcon } from '~/assets/icons';
+import { AddPlayListIcon, AddPlayQueueIcon, DeleteIcon, PlayQueueIcon, MusicLiBraryIcon } from '~/assets/icons';
+import { Albums } from '~/API/Albums';
 
 import 'tippy.js/themes/light.css';
 import Tippy from '@tippyjs/react';
@@ -26,6 +30,11 @@ function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
     const [percentPB, setPercentPB] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isPause, setIsPause] = useState(false);
+    const [isAddToQueue, setIsAddToQueue] = useState(true);
+    const [isAddMusicLibrary, setIsAddMusicLibrary] = useState(true);
+    const [isAddPlaylist, setIsAddPlaylist] = useState(true);
+    const [visible, setVisible] = useState(false);
+    const [isOpenD, setIsOpenD] = useState(false);
 
     const { changeVolume } = useFileMP3Store();
     const [isMute, setIsMute] = useState(false);
@@ -57,6 +66,28 @@ function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
         const totalTime = Number(array[0]) * 60 + Number(array[1]);
         return totalTime;
     };
+    useEffect(() => {
+        if (context.pathSong.includes('musicLibrary')) {
+            setIsAddMusicLibrary(false);
+            setIsAddToQueue(true);
+            setIsAddPlaylist(true);
+        }
+        if (context.pathSong.includes('playQueue')) {
+            setIsAddMusicLibrary(false);
+            setIsAddToQueue(false);
+            setIsAddPlaylist(false);
+        }
+        if (context.pathSong.includes('playList')) {
+            setIsAddMusicLibrary(false);
+            setIsAddToQueue(true);
+            setIsAddPlaylist(false);
+        }
+        if (context.pathSong === '/') {
+            setIsAddMusicLibrary(true);
+            setIsAddToQueue(true);
+            setIsAddPlaylist(false);
+        }
+    });
 
     useEffect(() => {
         if (isPlaying && !isPause) {
@@ -256,21 +287,62 @@ function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
                         </div>
 
                         <div className={cx('listIcon')}>
-                            <Tippy delay={[0, 200]} content="Add queue" placement="top" theme="light">
-                                <span>
-                                    <AddPlayQueueIcon />
+                            {isAddToQueue && (
+                                <Tippy delay={[0, 200]} content="Add queue" placement="top" theme="light">
+                                    <span
+                                        className={cx('icon')}
+                                        onClick={(event) => {
+                                            setIsOpenD(true);
+                                            event.stopPropagation();
+                                        }}
+                                    >
+                                        <PlayQueueIcon />
+                                    </span>
+                                </Tippy>
+                            )}
+                            <Tippy delay={[0, 200]} content="Delete" placement="top" theme="light">
+                                <span
+                                    className={cx('icon')}
+                                    onClick={(event) => {
+                                        setIsOpenD(true);
+                                        event.stopPropagation();
+                                    }}
+                                >
+                                    <DeleteIcon />
                                 </span>
                             </Tippy>
-                            <Tippy delay={[0, 200]} content="Add Musisclibrary" placement="top" theme="light">
-                                <span>
-                                    <MusicLiBraryIcon />
-                                </span>
-                            </Tippy>
-                            <Tippy delay={[0, 200]} content="add Playlist" placement="top" theme="light">
-                                <span>
-                                    <AddPlayListIcon />
-                                </span>
-                            </Tippy>
+                            {isAddPlaylist && (
+                                <Tippy delay={[0, 200]} content="Add Playlist" placement="top" theme="light">
+                                    <MenuPlaylist
+                                        items={Albums}
+                                        visible={visible}
+                                        onClickOutside={() => setVisible(false)}
+                                    >
+                                        <span
+                                            className={cx('icon')}
+                                            onClick={(event) => {
+                                                setVisible((visible) => !visible);
+                                                event.stopPropagation();
+                                            }}
+                                        >
+                                            <AddPlayListIcon />
+                                        </span>
+                                    </MenuPlaylist>
+                                </Tippy>
+                            )}
+                            {isOpenD && <ModalDelete setIsOpen={setIsOpenD} />}
+                            {isAddMusicLibrary && (
+                                <Tippy delay={[0, 200]} content="Add Library" placement="top" theme="light">
+                                    <span
+                                        className={cx('icon')}
+                                        onClick={(event) => {
+                                            event.stopPropagation();
+                                        }}
+                                    >
+                                        <MusicLiBraryIcon />
+                                    </span>
+                                </Tippy>
+                            )}
                         </div>
 
                         <div className={cx('m-progressbar')}>

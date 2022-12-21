@@ -1,5 +1,4 @@
 .wrapper {
-    font-family: var(--default-font-family);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -7,9 +6,12 @@
     padding: 9px 16px;
     border-radius: 4px;
     font-size: 1.6rem;
-    font-weight: 700;
     cursor: pointer;
     background-color: var(--white);
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    color: #2c3e50;
     border: 1px solid transparent;
     user-select: none;
 

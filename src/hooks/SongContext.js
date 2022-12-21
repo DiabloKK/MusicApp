@@ -14,7 +14,6 @@ function SongProvider({ children }) {
         };
 
         load();
-        
     }, []);
 
     const ChangeSong = (songCurrent) => {
@@ -22,7 +21,6 @@ function SongProvider({ children }) {
     };
     const ChangePathSong = (pathSongCurrent) => {
         setPathSong(pathSongCurrent);
-        console.log(pathSong);
     };
 
     const value = {
