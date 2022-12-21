@@ -30,7 +30,7 @@ function Sidebar() {
 
             <div className={cx('menu-items')}>
                 {menu.map((item) => (
-                    <Tippy delay={[0, 200]} content={item.title} placement="right" theme="light">
+                    <Tippy key={item.id} delay={[0, 200]} content={item.title} placement="right" theme="light">
                         <Link key={item.id} to={item.link} className={cx('item')}>
                             {item.icon}
                         </Link>

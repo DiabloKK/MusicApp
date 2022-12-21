@@ -1,6 +1,8 @@
 import classNames from 'classnames/bind';
 import styles from './Audio.module.scss';
 import { AddPlayListIcon, AddPlayQueueIcon, DeleteIcon } from '~/assets/icons';
+import MenuPlaylist from '../MenuPlaylist';
+import { useState } from 'react';
 
 import 'tippy.js/themes/light.css';
 import Tippy from '@tippyjs/react';
@@ -9,11 +11,13 @@ import 'tippy.js/dist/tippy.css';
 import { SongContext } from '~/hooks/SongContext';
 import { useContext } from 'react';
 import { CiVolumeHigh } from 'react-icons/ci';
+import { Albums } from '~/API/Albums';
+
 const cx = classNames.bind(styles);
 
 function Audio({ song }) {
     const context = useContext(SongContext);
-
+    const [visible, setVisible] = useState(false);
     return (
         <div
             className={cx(`Audio`, {
@@ -54,9 +58,17 @@ function Audio({ song }) {
                     </span>
                 </Tippy>
                 <Tippy delay={[0, 200]} content="Add Playlist" placement="top" theme="light">
-                    <span className={cx('icon')}>
-                        <AddPlayListIcon />
-                    </span>
+                    <MenuPlaylist items={Albums} visible={visible} onClickOutside={() => setVisible(false)}>
+                        <span
+                            className={cx('icon')}
+                            onClick={(event) => {
+                                setVisible((visible) => !visible);
+                                event.stopPropagation();
+                            }}
+                        >
+                            <AddPlayListIcon />
+                        </span>
+                    </MenuPlaylist>
                 </Tippy>
             </div>
         </div>

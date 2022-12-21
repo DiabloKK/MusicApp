@@ -1,36 +1,42 @@
 import classNames from 'classnames/bind';
 import styles from './MusicPlayer.module.scss';
 import moment from 'moment';
+import { useContext } from 'react';
 import { useEffect, useRef, useState } from 'react';
+
+import { useFileMP3Store } from '~/store/useFileMP3Store';
+import { SongContext } from '~/hooks/SongContext';
+
 import { BsPlayCircleFill, BsSkipEndFill, BsSkipStartFill, BsShuffle, BsPauseCircleFill } from 'react-icons/bs';
 import { IoIosRepeat } from 'react-icons/io';
-import { CiVolumeHigh } from 'react-icons/ci';
-import { useFileMP3Store } from '~/store/useFileMP3Store';
-
+import { CiVolumeHigh, CiVolumeMute } from 'react-icons/ci';
 import { ProgressBar, ProgressBarColor } from '~/assets/Progressbar';
 import { AddPlayListIcon, AddPlayQueueIcon, MusicLiBraryIcon } from '~/assets/icons';
-import { useContext } from 'react';
-import { SongContext } from '~/hooks/SongContext';
 
 import 'tippy.js/themes/light.css';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 
 const cx = classNames.bind(styles);
-function MusicPlayer({ song, fullView = false }) {
+function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
     const context = useContext(SongContext);
 
     const { playMusic, togglePause, stopMusic, loadListMusic, getState } = useFileMP3Store();
     const [currentime, setCurrentime] = useState(0);
-
+    const [percentPB, setPercentPB] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isPause, setIsPause] = useState(false);
+
+    const { changeVolume } = useFileMP3Store();
+    const [isMute, setIsMute] = useState(false);
 
     const progressbarcolor = useRef();
     const songCurrent = useRef(1);
     const interval = useRef();
     const isRepeat = useRef(false);
     const isShuffle = useRef(false);
+    const trackRef = useRef();
+    const volumeRef = useRef();
 
     const handleTogglePlayMusic = async () => {
         if (!isPlaying) {
@@ -56,7 +62,7 @@ function MusicPlayer({ song, fullView = false }) {
         if (isPlaying && !isPause) {
             const timeoutTime = setTimeout(async () => {
                 let percent = Math.round((currentime * 100) / getTotalTime()) / 1000;
-
+                setPercentPB(percent);
                 progressbarcolor.current.style.cssText = `width: ${percent * 351}px`;
                 setCurrentime(currentime + 1);
             }, 100);
@@ -64,6 +70,9 @@ function MusicPlayer({ song, fullView = false }) {
             return () => clearTimeout(timeoutTime);
         }
     });
+    useEffect(() => {
+        progressbarcolor.current.style.cssText = `width: ${percentPB * 351}px`;
+    }, [fullView]);
 
     useEffect(() => {
         if (songCurrent.current !== song.id && song.id !== undefined) {
@@ -138,6 +147,33 @@ function MusicPlayer({ song, fullView = false }) {
         }
         isShuffle.current = !isShuffle.current;
     };
+    const handleClickProgressBar = (e) => {
+        const trackRect = trackRef.current.getBoundingClientRect();
+        const percent = Math.round(e.clientX - trackRect.left) / trackRect.width;
+        console.log(percent);
+        progressbarcolor.current.style.cssText = `width: ${percent * 351}px`;
+        console.log(percent * getTotalTime() * 10);
+        setCurrentime(percent * getTotalTime() * 10);
+        setPercentPB(percent);
+    };
+
+    const handleChangeVolume = async (e) => {
+        console.log(typeof e.target.value, e.target.value === 0);
+        if (parseInt(e.target.value) === 0) setIsMute(true);
+        else setIsMute(false);
+        await changeVolume(e.target.value);
+    };
+
+    const handleClickVolume = async () => {
+        if (isMute === false) {
+            document.getElementById('volume').value = 0;
+            changeVolume(0);
+        } else {
+            document.getElementById('volume').value = 50;
+            changeVolume(50);
+        }
+        setIsMute(!isMute);
+    };
 
     return (
         <>
@@ -172,7 +208,7 @@ function MusicPlayer({ song, fullView = false }) {
                         <span className={cx('time')}>
                             <span className="">{moment.utc((currentime / 10) * 1000).format('mm:ss')}</span>
                         </span>
-                        <div className={cx('progressbarnocolor')}>
+                        <div className={cx('progressbarnocolor')} ref={trackRef} onClick={handleClickProgressBar}>
                             <ProgressBar />
                             <div className={cx('progressbarcolor')} ref={progressbarcolor}>
                                 <ProgressBarColor />
@@ -181,6 +217,18 @@ function MusicPlayer({ song, fullView = false }) {
                         <span className={cx('time')}>
                             <span>{song.Duration}</span>
                         </span>
+                    </div>
+                    <div className={cx('container-vol')}>
+                        <div className={cx('modeIcons')}>
+                            <div onClick={handleClickVolume}>
+                                {!isMute ? (
+                                    <CiVolumeHigh className={cx('volume')} />
+                                ) : (
+                                    <CiVolumeMute className={cx('volume')} />
+                                )}
+                            </div>
+                            <input type="range" id="volume" min="0" max="100" onChange={handleChangeVolume} />
+                        </div>
                     </div>
                 </div>
             ) : (
@@ -229,7 +277,7 @@ function MusicPlayer({ song, fullView = false }) {
                             <span className={cx('time')}>
                                 <span className="">{moment.utc((currentime / 10) * 1000).format('mm:ss')}</span>
                             </span>
-                            <div className={cx('progressbarnocolor')}>
+                            <div className={cx('progressbarnocolor')} ref={trackRef} onClick={handleClickProgressBar}>
                                 <ProgressBar />
                                 <div className={cx('progressbarcolor')} ref={progressbarcolor}>
                                     <ProgressBarColor />
@@ -242,7 +290,30 @@ function MusicPlayer({ song, fullView = false }) {
                         <div className={cx('modeIcons')}>
                             <IoIosRepeat className={cx('left')} onClick={clickRepeat} />
                             <BsShuffle className={cx('right')} onClick={clickShuffle} />
-                            <CiVolumeHigh className={cx('volumn')} />
+                            <div className={cx('volume-control')}>
+                                <span
+                                    onMouseEnter={() => {
+                                        console.log(volumeRef.current);
+                                        volumeRef.current.style.cssText = `display: flex;`;
+                                    }}
+                                >
+                                    {!isMute ? (
+                                        <CiVolumeHigh className={cx('volume')} onClick={handleClickVolume} />
+                                    ) : (
+                                        <CiVolumeMute className={cx('volume')} onClick={handleClickVolume} />
+                                    )}
+                                </span>
+
+                                <div
+                                    className={cx('container-volume')}
+                                    ref={volumeRef}
+                                    onMouseLeave={() => {
+                                        volumeRef.current.style.cssText = `display: none;`;
+                                    }}
+                                >
+                                    <input type="range" id="volume" min="0" max="100" onChange={handleChangeVolume} />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
