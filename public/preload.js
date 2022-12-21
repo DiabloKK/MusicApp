@@ -30,5 +30,19 @@ contextBridge.exposeInMainWorld('fileMp3API', {
     },
     deleteMusic: (url) => {
         ipcRenderer.invoke('delete-music', url);
-    }
+    },
+    addRecentMusic: (url) => {
+        ipcRenderer.invoke('add-recent-music', url);
+    },
+    deleteRecentMusic: (url) => {
+        ipcRenderer.invoke('delete-recent-music', url);
+    },
+    loadRecentMusic: () => {
+    },
+    createPlayList: (name) => {
+        ipcRenderer.invoke('create-playlist', name);
+    },
+    addMusicPlayList: (name, url) => {
+        ipcRenderer.invoke('add-music-playlist', name, url);
+    } 
 });

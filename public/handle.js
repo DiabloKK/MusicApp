@@ -3,13 +3,22 @@ const { promisify } = require('util');
 const execAsync = promisify(exec);
 const path = require('path');
 const fs = require('fs');
-const {imageDefault} = require("./imageDefault.js")
+const {imageDefault} = require("./imageDefault.js");
+const { asUploadButton } = require('@rpldy/upload-button');
 
     const addMusic = async () => {
-        const { stdout } = await execAsync('zenity --file-selection --file-filter=*.mp3');
-        const infoFile = await saveUrl(stdout);
+        const { stdout } = await execAsync('zenity --multiple --file-selection --file-filter=*.mp3');
+        console.log(stdout);
+        const array_pathFile = stdout.split("|");
+
+        const array_music = [];
+        array_pathFile.forEach(async path => {
+            const infoFile = await saveUrl(path + "\n");
+            array_music.push(infoFile);
+        });
+
         console.log('fileMP3Handle: inside mehtod addMusic(), doi tuong tra ve component:');
-        return infoFile;
+        return array_music;
     };
     
     const togglePause = async () => {
@@ -87,6 +96,33 @@ const {imageDefault} = require("./imageDefault.js")
             }
     
             console.log('fileMP3Handle: inside method loadListMusic()');
+            return listMusic;
+        } catch (error) {
+            console.log('2: ' + error);
+            return [];
+        }
+    };
+
+    const loadListMusicRecent = async () => {
+        try {
+            const data = await fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/recentMusic.txt"));
+            const listUrls = data.toString().split('\n');
+    
+            const cmd = 'exiftool -artist -title -duration -picture -b -j ' + listUrls.join(' ');
+            const { stdout } = await execAsync(cmd);
+            const listMusic = JSON.parse(stdout);
+            for (let i = 0; i < listMusic.length; i++) {
+                listMusic[i]['id'] = i + 1;
+                listMusic[i]['Duration'] = listMusic[i]['Duration'].split(' ')[0];
+                listMusic[i]['Duration'] = listMusic[i]['Duration'].substring(2);
+                if (listMusic[i]['Picture'] === undefined) {
+                    listMusic[i]['Picture'] = imageDefault;
+                } else {
+                    listMusic[i]['Picture'] = listMusic[i]['Picture'].substring(7);
+                }
+            }
+    
+            console.log('fileMP3Handle: inside method loadListMusicRecent()');
             return listMusic;
         } catch (error) {
             console.log('2: ' + error);
@@ -171,9 +207,64 @@ const {imageDefault} = require("./imageDefault.js")
             console.log(error);
         }
     };
+
+    const appendUrlIntoRecentMusic = async (url) => {   
+        console.log(url);
+        fs.appendFileSync(path.join(__dirname.replace("public","src"), "/API/recentMusic.txt"), url + "\n");
+    }
     
+    const saveUrlRecent = async (event, url) => {
+        try {
+            const data = fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/recentMusic.txt"));
+            if (!data.toString().includes(url)) {
+                console.log('fileMP3Handle: inside mehtod saveUrlRecent(), message: thuc hien them url vao file(da tao)');
+                await appendUrlIntoRecentMusic(url);
+            } else {
+                console.log('fileMP3Handle: inside mehtod saveUrlRecent(), message: url da ton tai!');
+            }
+        } catch (error) {
+            console.log(error);
+        } 
+    }
+
+    const deleteMusicRecent = async (event, url) => {
+        try {
+            let data = await fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/recentMusic.txt"));
+            data = data.toString();
+            data = data.replace(url, '');
+            await fs.writeFileSync(path.join(__dirname.replace("public","src"), "/API/recentMusic.txt"), data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const createPlayList = async (event, name) => {
+        console.log(name);
+        fs.writeFileSync(path.join(__dirname.replace("public","src"), "/API/" + name + ".txt"), "");
+    };
+
+    const appendUrlIntpPlayListMusic = async (name, url) => {
+        console.log(url);
+        console.log(name);
+        fs.appendFileSync(path.join(__dirname.replace("public","src"), "/API/" + name + ".txt"), url + "\n");
+    }
+
+    const saveMusicIntoPlayList = async (event, name, url) => {
+        try {
+            const data = fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/" + name + ".txt"));
+            if (!data.toString().includes(url)) {
+                console.log('fileMP3Handle: inside mehtod saveMusicIntoPlayList(), message: thuc hien them url vao file(da tao)');
+                await appendUrlIntpPlayListMusic(name, url);
+            } else {
+                console.log('fileMP3Handle: inside mehtod saveMusicIntoPlayList(), message: url da ton tai!');
+            }
+        } catch (error) {
+            console.log(error);
+        } 
+    }
 
 module.exports = {
-    imageDefault, addMusic, togglePause, loadListMusic, playMusic, deleteMusic,
-     jumpTimeMusic, stopMusic, getState, changeVolume, getValueVolume,
+    imageDefault, addMusic, togglePause, loadListMusic, playMusic, deleteMusic, loadListMusicRecent,
+     jumpTimeMusic, stopMusic, getState, changeVolume, getValueVolume, saveUrlRecent, deleteMusicRecent,
+     createPlayList, saveMusicIntoPlayList
 };

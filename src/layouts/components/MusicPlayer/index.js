@@ -18,7 +18,13 @@ function MusicPlayer({ song , fullView = false }) {
 
     const context = useContext(SongContext);
 
-    const {playMusic, togglePause, stopMusic, loadListMusic, getState} = useFileMP3Store();
+    const {playMusic, togglePause, stopMusic, loadListMusic, getState, deleteRecentMusic,
+         createPlayList, addMusicPlayList} = useFileMP3Store();
+    createPlayList("Khang");
+    addMusicPlayList("Khang", "HA")
+
+
+
     const [currentime, setCurrentime] = useState(0);
 
     const [isPlaying, setIsPlaying] = useState(false);
@@ -67,6 +73,7 @@ function MusicPlayer({ song , fullView = false }) {
     useEffect(() => {
         if(songCurrent.current !== song.id && song.id !== undefined) {
             songCurrent.current = song.id;
+            deleteRecentMusic("/home/noir/Music/Yeu5.mp3");
             playRepeat();
         } 
     });
@@ -91,7 +98,7 @@ function MusicPlayer({ song , fullView = false }) {
         context.ChangeSong(Songs[nextSong-1]);
     }
 
-    const playRepeat = () => {
+    const playRepeat = async () => {
         stopMusic();
         playMusic(song.SourceFile);
         setCurrentime(0);
