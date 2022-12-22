@@ -55,5 +55,10 @@ export const useFileMP3Store = create((set, get) => ({
     },
     async addMusicPlayList(name, url) {
         await window.fileMp3API.addMusicPlayList(name, url);
+    },
+    async loadPlayList(name) {
+        const playList = await window.fileMp3API.loadPlayList(name);
+        console.log("useFileMP3Store: inside method loadPlayList, listMusic:\n");
+        return playList;
     } 
 }));

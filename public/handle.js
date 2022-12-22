@@ -4,7 +4,6 @@ const execAsync = promisify(exec);
 const path = require('path');
 const fs = require('fs');
 const {imageDefault} = require("./imageDefault.js");
-const { asUploadButton } = require('@rpldy/upload-button');
 
     const addMusic = async () => {
         const { stdout } = await execAsync('zenity --multiple --file-selection --file-filter=*.mp3');
@@ -105,6 +104,7 @@ const { asUploadButton } = require('@rpldy/upload-button');
 
     const loadListMusicRecent = async () => {
         try {
+            console.log("loadRecentMusic in electron");
             const data = await fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/recentMusic.txt"));
             const listUrls = data.toString().split('\n');
     
@@ -128,7 +128,35 @@ const { asUploadButton } = require('@rpldy/upload-button');
             console.log('2: ' + error);
             return [];
         }
-    };
+    }; 
+
+    const loadPlayList = async (event, name) => {
+        try {
+            console.log("loadPlayList in electron");
+            const data = await fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/" + name + ".txt"));
+            const listUrls = data.toString().split('\n');
+    
+            const cmd = 'exiftool -artist -title -duration -picture -b -j ' + listUrls.join(' ');
+            const { stdout } = await execAsync(cmd);
+            const listMusic = JSON.parse(stdout);
+            for (let i = 0; i < listMusic.length; i++) {
+                listMusic[i]['id'] = i + 1;
+                listMusic[i]['Duration'] = listMusic[i]['Duration'].split(' ')[0];
+                listMusic[i]['Duration'] = listMusic[i]['Duration'].substring(2);
+                if (listMusic[i]['Picture'] === undefined) {
+                    listMusic[i]['Picture'] = imageDefault;
+                } else {
+                    listMusic[i]['Picture'] = listMusic[i]['Picture'].substring(7);
+                }
+            }
+    
+            console.log('fileMP3Handle: inside method loadListPlayList()');
+            return listMusic;
+        } catch (error) {
+            console.log('2: ' + error);
+            return [];
+        }
+    }
     
     const saveUrl = async (url) => {
         try {
@@ -201,7 +229,7 @@ const { asUploadButton } = require('@rpldy/upload-button');
         try {
             let data = await fs.readFileSync(path.join(__dirname, '/listUrlMusic.txt'));
             data = data.toString();
-            data = data.replace(url, '');
+            data = data.replace(url + '\n', '');
             await fs.writeFileSync(path.join(__dirname, '/listUrlMusic.txt'), data);
         } catch (error) {
             console.log(error);
@@ -219,6 +247,9 @@ const { asUploadButton } = require('@rpldy/upload-button');
             if (!data.toString().includes(url)) {
                 console.log('fileMP3Handle: inside mehtod saveUrlRecent(), message: thuc hien them url vao file(da tao)');
                 await appendUrlIntoRecentMusic(url);
+                if(data.toString().split("\n").length > 10) {
+                    deleteMusicRecent(data.toString().split("\n"));
+                }
             } else {
                 console.log('fileMP3Handle: inside mehtod saveUrlRecent(), message: url da ton tai!');
             }
@@ -231,7 +262,7 @@ const { asUploadButton } = require('@rpldy/upload-button');
         try {
             let data = await fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/recentMusic.txt"));
             data = data.toString();
-            data = data.replace(url, '');
+            data = data.replace(url + '\n', '');
             await fs.writeFileSync(path.join(__dirname.replace("public","src"), "/API/recentMusic.txt"), data);
         } catch (error) {
             console.log(error);
@@ -266,5 +297,5 @@ const { asUploadButton } = require('@rpldy/upload-button');
 module.exports = {
     imageDefault, addMusic, togglePause, loadListMusic, playMusic, deleteMusic, loadListMusicRecent,
      jumpTimeMusic, stopMusic, getState, changeVolume, getValueVolume, saveUrlRecent, deleteMusicRecent,
-     createPlayList, saveMusicIntoPlayList
+     createPlayList, saveMusicIntoPlayList, loadPlayList
 };

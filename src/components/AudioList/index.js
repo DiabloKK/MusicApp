@@ -12,12 +12,12 @@ const cx = classNames.bind(styles);
 
 function AudioList() {
    
-    const {loadListMusic} = useFileMP3Store();
+    const {loadListMusic, loadRecentMusic, loadPlayList} = useFileMP3Store();
     const [songs, setSongs] = useState([]);
 
     useEffect(() => {
         const load = async () => {
-            const list = await loadListMusic();
+            const list = await loadPlayList("Khang");
             setSongs(list);
         }
     

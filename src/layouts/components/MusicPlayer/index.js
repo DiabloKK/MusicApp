@@ -20,10 +20,6 @@ function MusicPlayer({ song , fullView = false }) {
 
     const {playMusic, togglePause, stopMusic, loadListMusic, getState, deleteRecentMusic,
          createPlayList, addMusicPlayList} = useFileMP3Store();
-    createPlayList("Khang");
-    addMusicPlayList("Khang", "HA")
-
-
 
     const [currentime, setCurrentime] = useState(0);
 
@@ -73,7 +69,6 @@ function MusicPlayer({ song , fullView = false }) {
     useEffect(() => {
         if(songCurrent.current !== song.id && song.id !== undefined) {
             songCurrent.current = song.id;
-            deleteRecentMusic("/home/noir/Music/Yeu5.mp3");
             playRepeat();
         } 
     });
