@@ -275,8 +275,9 @@ const {imageDefault} = require("./imageDefault.js");
             if (!data.toString().includes(url)) {
                 console.log('fileMP3Handle: inside mehtod saveUrlRecent(), message: thuc hien them url vao file(da tao)');
                 await appendUrlIntoRecentMusic(url);
+                console.log(data.toString().split("\n")[0]);
                 if(data.toString().split("\n").length > 10) {
-                    deleteMusicRecent(data.toString().split("\n"));
+                    deleteMusicRecent(null, data.toString().split("\n")[0]);
                 }
             } else {
                 console.log('fileMP3Handle: inside mehtod saveUrlRecent(), message: url da ton tai!');

@@ -36,7 +36,8 @@ function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
         addMusicPlayList,
         jumpTimeMusic,
         deletePlayList,
-        addLoveMusic
+        addLoveMusic,
+        addRecentMusic
     } = useFileMP3Store();
 
     const [currentime, setCurrentime] = useState(0);
@@ -63,6 +64,7 @@ function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
     const handleTogglePlayMusic = async () => {
         if (!isPlaying) {
             await playMusic(song.SourceFile);
+            await addRecentMusic(song.SourceFile);
             setIsPlaying((isPlaying) => !isPlaying);
             runTime();
         } else {
@@ -148,6 +150,7 @@ function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
     const playRepeat = async () => {
         stopMusic();
         playMusic(song.SourceFile);
+        addRecentMusic(song.SourceFile);
         setCurrentime(0);
         clearInterval(interval.current);
         runTime();
