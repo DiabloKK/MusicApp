@@ -9,13 +9,27 @@ import { Albums } from '~/API/Albums';
 
 const cx = classNames.bind(styles);
 
-function AudioList() {
-    const { loadListMusic } = useFileMP3Store();
+function AudioList({ type = 'musicLibrary' }) {
+    const { loadListMusic, loadRecentMusic } = useFileMP3Store();
     const [songs, setSongs] = useState([]);
 
     useEffect(() => {
         const load = async () => {
-            const list = await loadListMusic();
+            var list;
+            console.log(1);
+            switch (type) {
+                case 'home':
+                    console.log(2);
+                    list = await loadRecentMusic();
+                    console.log(list);
+                    console.log(22);
+
+                    break;
+                default:
+                    console.log(3);
+                    list = await loadListMusic();
+            }
+
             setSongs(list);
         };
 

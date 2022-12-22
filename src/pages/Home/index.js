@@ -14,7 +14,7 @@ function Home() {
             <Slider />
             <h2 className={cx('title')}>Recent music</h2>
             <div className={cx('content')}>
-                <AudioList />
+                <AudioList type="home" />
             </div>
         </div>
     );

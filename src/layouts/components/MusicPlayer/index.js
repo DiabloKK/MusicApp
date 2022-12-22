@@ -34,9 +34,8 @@ function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
         deleteRecentMusic,
         createPlayList,
         addMusicPlayList,
+        jumpTimeMusic,
     } = useFileMP3Store();
-    createPlayList('Khang');
-    addMusicPlayList('Khang', 'HA');
 
     const [currentime, setCurrentime] = useState(0);
     const [percentPB, setPercentPB] = useState(0);
@@ -120,7 +119,7 @@ function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
     useEffect(() => {
         if (songCurrent.current !== song.id && song.id !== undefined) {
             songCurrent.current = song.id;
-            deleteRecentMusic('/home/hoanqnqu/Music/Yeu5.mp3');
+
             playRepeat();
         }
     });
@@ -194,10 +193,11 @@ function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
     const handleClickProgressBar = (e) => {
         const trackRect = trackRef.current.getBoundingClientRect();
         const percent = Math.round(e.clientX - trackRect.left) / trackRect.width;
-        console.log(percent);
         progressbarcolor.current.style.cssText = `width: ${percent * 351}px`;
-        console.log(percent * getTotalTime() * 10);
         setCurrentime(percent * getTotalTime() * 10);
+        console.log(percent * getTotalTime() * 10);
+        console.log(Math.floor((percent * getTotalTime() * 10) / 10));
+        jumpTimeMusic(Math.floor((percent * getTotalTime() * 10) / 10));
         setPercentPB(percent);
     };
 

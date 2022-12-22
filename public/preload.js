@@ -37,7 +37,9 @@ contextBridge.exposeInMainWorld('fileMp3API', {
     deleteRecentMusic: (url) => {
         ipcRenderer.invoke('delete-recent-music', url);
     },
-    loadRecentMusic: () => {},
+    loadRecentMusic: () => {
+        return ipcRenderer.invoke('load-recent-music');
+    },
     createPlayList: (name) => {
         ipcRenderer.invoke('create-playlist', name);
     },
