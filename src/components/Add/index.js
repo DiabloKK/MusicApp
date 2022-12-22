@@ -7,8 +7,7 @@ import Artist from '../Artist/index';
 
 const cx = classNames.bind(styles);
 function Add({ label = 'Add' }) {
-
-    const {addMusic, stopMusic} = useFileMP3Store();
+    const { addMusic, stopMusic } = useFileMP3Store();
 
     const handle = async (e) => {
         await addMusic();

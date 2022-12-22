@@ -1,15 +1,14 @@
-import create from "zustand";
-
+import create from 'zustand';
 
 export const useFileMP3Store = create((set, get) => ({
     async addMusic() {
         const itemMusic = await window.fileMp3API.addMusic();
-        console.log("useFileMP3Store: inside method addMusic(), itemMusic:\n");
+        console.log('useFileMP3Store: inside method addMusic(), itemMusic:\n');
         return itemMusic;
     },
     async loadListMusic() {
         const listMusic = await window.fileMp3API.loadListMusic();
-        console.log("useFileMP3Store: inside method loadListMusic(), listMusic:\n");
+        console.log('useFileMP3Store: inside method loadListMusic(), listMusic:\n');
         return listMusic;
     },
     async playMusic(url) {
@@ -26,7 +25,7 @@ export const useFileMP3Store = create((set, get) => ({
     },
     async getState() {
         let state = await window.fileMp3API.getState();
-        state = state.substring(0,4);
+        state = state.substring(0, 4);
         return state;
     },
     async changeVolume(value) {
@@ -39,6 +38,7 @@ export const useFileMP3Store = create((set, get) => ({
     async deleteMusic(url) {
         await window.fileMp3API.deleteMusic(url);
     },
+
     async addRecentMusic(url) {
         await window.fileMp3API.addRecentMusic(url);
     },
@@ -47,7 +47,7 @@ export const useFileMP3Store = create((set, get) => ({
     },
     async loadRecentMusic() {
         const listRecentMusic = await window.fileMp3API.loadRecentMusic();
-        console.log("useFileMP3Store: inside method loadRecentMusic(), listMusic:\n");
+        console.log('useFileMP3Store: inside method loadRecentMusic(), listMusic:\n');
         return listRecentMusic;
     },
     async createPlayList(name) {
@@ -56,9 +56,4 @@ export const useFileMP3Store = create((set, get) => ({
     async addMusicPlayList(name, url) {
         await window.fileMp3API.addMusicPlayList(name, url);
     },
-    async loadPlayList(name) {
-        const playList = await window.fileMp3API.loadPlayList(name);
-        console.log("useFileMP3Store: inside method loadPlayList, listMusic:\n");
-        return playList;
-    } 
 }));

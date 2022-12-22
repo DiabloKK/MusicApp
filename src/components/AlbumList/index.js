@@ -5,11 +5,12 @@ import Album from '../Album';
 
 const cx = classNames.bind(styles);
 
-function AblumList() {
+function AblumList({ name = 'albums' }) {
+    console.log(name);
     return (
         <div className={cx('AlbumList')}>
             {Albums.map((ablum) => (
-                <Album key={ablum.id} Album={ablum} />
+                <Album key={ablum.id} name={name} Album={ablum} />
             ))}
         </div>
     );

@@ -97,6 +97,7 @@
     width: 30px;
     height: 30px;
     color: #ffffff;
+    cursor: pointer;
 }
 .center {
     display: flex;
@@ -113,6 +114,7 @@
         width: 30px;
         height: 30px;
         color: #ffffff;
+        cursor: pointer;
     }
     span {
         line-height: 10px;
@@ -122,6 +124,7 @@
         height: 60px;
         color: #ffffff;
         line-height: 60px;
+        cursor: pointer;
     }
 }
 .m-progressbar {
@@ -142,6 +145,7 @@
 .progressbarnocolor {
     position: relative;
     transform: translateY(4px);
+    cursor: pointer;
 }
 .progressbarcolor {
     position: absolute;
@@ -149,6 +153,7 @@
     left: 0px;
     width: 0px;
     overflow: hidden;
+    cursor: pointer;
     animation: name duration timing-function delay iteration-count direction fill-mode;
 }
 .time {
@@ -266,6 +271,7 @@
     color: #ffffff;
 }
 .modeIcons {
+    position: relative;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -276,4 +282,60 @@
     height: 30px;
     font-size: 30px;
     color: #ffffff;
+    span {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .container-volume {
+        display: flex;
+        justify-content: center;
+        padding: 60px 10px;
+        background: rgba(29, 32, 62, 0.8);
+
+        border-radius: 10px;
+        position: absolute;
+        left: 110px;
+        top: -150px;
+        width: 30px;
+        display: none;
+        input {
+            transform: rotate(-90deg);
+        }
+    }
+}
+.volume {
+    cursor: pointer;
+}
+.container-vol {
+    display: flex;
+    justify-content: center;
+    background: rgba(29, 32, 62, 0.3);
+
+    padding: 20px 40px;
+    border-radius: 20px;
+
+    div {
+        display: flex;
+        justify-content: center;
+    }
+    // input {
+    //     width: 100px;
+    //     height: 15px;
+    //     appearance: none;
+    //     background-color: #edf1f4;
+    //     outline: none;
+    //     border-radius: 15px;
+    //     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1), -5px -5px 10px #fff, inset 5px 5px 5px rgba(0, 0, 0, 0.1);
+    //     overflow: hidden;
+    // }
+    // input::-webkit-input-thumb {
+    //     appearance: none;
+    //     width: 15px;
+    //     height: 15px;
+    //     background: #fff;
+    //     border-radius: 50%;
+    //     border: 2px solid #27a0ff;
+    //     box-shadow: -207px 0 0 200px #27a0ff;
+    // }
 }

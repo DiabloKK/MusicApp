@@ -1,0 +1,105 @@
+.Add-container {
+    position: relative;
+}
+.Add {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 9px;
+    gap: 0px;
+    width: 180px;
+    height: 42px;
+
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(45, 46, 55, 0.5);
+    border-radius: 10px;
+
+    .more-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 7px 5px;
+        border-left: 1px solid rgba(45, 46, 55, 0.5);
+        padding-right: 8px;
+        border-radius: 0px 10px 10px 0px;
+    }
+    .morebtn {
+        color: rgba(45, 46, 55, 0.7);
+        width: 24px;
+        height: 24px;
+    }
+    .more-container:hover {
+        background-color: rgba(45, 46, 55, 0.2);
+    }
+    label {
+        display: flex;
+        justify-content: center;
+        color: rgba(45, 46, 55, 0.7);
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+    }
+    p {
+        height: 25px;
+        flex: 1;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        /* or 150% */
+    }
+}
+input[type='file'] {
+    display: none;
+}
+.selections {
+    display: none;
+    width: 200px;
+    height: 100px;
+    position: absolute;
+    top: 45px;
+    right: -10px;
+    z-index: 10;
+    background-color: #fff;
+    transition: 1s;
+    flex-direction: column;
+    border: 2px solid rgba(45, 46, 55, 0.5);
+    border-radius: 10px;
+}
+.addLabel1,
+.addLabel2 {
+    display: flex;
+    justify-content: center;
+    color: rgba(45, 46, 55, 0.7);
+    align-items: center;
+    gap: 8px;
+    height: 50px;
+
+    p {
+        width: 100px;
+        height: 25px;
+
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+    }
+    cursor: pointer;
+}
+.addLabel1 {
+    border-bottom: 2px solid rgba(45, 46, 55, 0.5);
+    border-radius: 10px 10px 0px 0px;
+}
+.addLabel2 {
+    border-radius: 0px 0px 10px 10px;
+}
+.addLabel1:hover,
+.addLabel2:hover {
+    background-color: rgba(45, 46, 55, 0.2);
+}
+.active {
+    display: block;
+}
