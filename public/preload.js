@@ -48,5 +48,14 @@ contextBridge.exposeInMainWorld('fileMp3API', {
     },
     loadPlayList: (name) => {
         return ipcRenderer.invoke('load-playlist', name);
-    } 
+    },
+    deletePlayList: (name) => {
+        ipcRenderer.invoke('delete-playlist', name);
+    },
+    addLoveMusic: (url) => {
+        ipcRenderer.invoke('save-love-music', url);
+    },
+    loadLoveMusic: () => {
+        return ipcRenderer.invoke('load-love-music');
+    }
 });

@@ -9,7 +9,7 @@ const path = require('path');
 const fs = require('fs');
 const { addMusic, togglePause, loadListMusic, playMusic, deleteMusic, deleteMusicRecent, loadListMusicRecent,
     jumpTimeMusic, stopMusic, getState, changeVolume, getValueVolume, saveUrlRecent,
-    createPlayList, saveMusicIntoPlayList, loadPlayList } = require('./handle.js');
+    createPlayList, saveMusicIntoPlayList, loadPlayList, deletePlayList, saveLoveMusic, loadLoveMusic } = require('./handle.js');
 
 function createWindow() {
     //Create server moc
@@ -58,6 +58,9 @@ function createWindow() {
     ipcMain.handle('create-playlist', createPlayList);
     ipcMain.handle('add-music-playlist', saveMusicIntoPlayList);
     ipcMain.handle('load-playlist', loadPlayList);
+    ipcMain.handle('delete-playlist', deletePlayList);
+    ipcMain.handle('save-love-music', saveLoveMusic);
+    ipcMain.handle('load-love-music', loadLoveMusic);
 }
 
 app.whenReady().then(() => {

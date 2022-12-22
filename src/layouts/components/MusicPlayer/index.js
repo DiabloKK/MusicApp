@@ -35,6 +35,8 @@ function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
         createPlayList,
         addMusicPlayList,
         jumpTimeMusic,
+        deletePlayList,
+        addLoveMusic
     } = useFileMP3Store();
 
     const [currentime, setCurrentime] = useState(0);

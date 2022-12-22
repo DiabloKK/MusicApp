@@ -77,7 +77,7 @@ const {imageDefault} = require("./imageDefault.js");
     
     const loadListMusic = async () => {
         try {
-            const data = await fs.readFileSync(path.join(__dirname, '/listUrlMusic.txt'));
+            const data = await fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/listUrlMusic.txt"));
             const listUrls = data.toString().split('\n');
     
             const cmd = 'exiftool -artist -title -duration -picture -b -j ' + listUrls.join(' ');
@@ -157,10 +157,38 @@ const {imageDefault} = require("./imageDefault.js");
             return [];
         }
     }
+
+    const loadLoveMusic = async () => {
+        try {
+            console.log("loadLoveMusic in electron");
+            const data = await fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/loveMusic.txt"));
+            const listUrls = data.toString().split('\n');
+    
+            const cmd = 'exiftool -artist -title -duration -picture -b -j ' + listUrls.join(' ');
+            const { stdout } = await execAsync(cmd);
+            const listMusic = JSON.parse(stdout);
+            for (let i = 0; i < listMusic.length; i++) {
+                listMusic[i]['id'] = i + 1;
+                listMusic[i]['Duration'] = listMusic[i]['Duration'].split(' ')[0];
+                listMusic[i]['Duration'] = listMusic[i]['Duration'].substring(2);
+                if (listMusic[i]['Picture'] === undefined) {
+                    listMusic[i]['Picture'] = imageDefault;
+                } else {
+                    listMusic[i]['Picture'] = listMusic[i]['Picture'].substring(7);
+                }
+            }
+    
+            console.log('fileMP3Handle: inside method loadLoveMusic()');
+            return listMusic;
+        } catch (error) {
+            console.log('2: ' + error);
+            return [];
+        }
+    }; 
     
     const saveUrl = async (url) => {
         try {
-            const data = fs.readFileSync(path.join(__dirname, '/listUrlMusic.txt'));
+            const data = fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/listUrlMusic.txt"));
             if (!data.toString().includes(url)) {
                 console.log('fileMP3Handle: inside mehtod saveUrl(), message: thuc hien them url vao file(da tao)');
                 return await appendUrlIntoFile(url);
@@ -176,7 +204,7 @@ const {imageDefault} = require("./imageDefault.js");
     
     const appendUrlIntoFile = async (url) =>
         new Promise((resolve, reject) => {
-            fs.appendFile(path.join(__dirname, '/listUrlMusic.txt'), url, (err) => {
+            fs.appendFile(path.join(__dirname.replace("public","src"), "/API/listUrlMusic.txt"), url, (err) => {
                 if (err) {
                     console.log('fileMP3Handle: inside mehtod appendUrlIntoFile(), loi khi them url vao file: ' + err);
                 } else {
@@ -227,10 +255,10 @@ const {imageDefault} = require("./imageDefault.js");
     
     const deleteMusic = async (event, url) => {
         try {
-            let data = await fs.readFileSync(path.join(__dirname, '/listUrlMusic.txt'));
+            let data = await fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/listUrlMusic.txt"));
             data = data.toString();
             data = data.replace(url + '\n', '');
-            await fs.writeFileSync(path.join(__dirname, '/listUrlMusic.txt'), data);
+            await fs.writeFileSync(path.join(__dirname.replace("public","src"), "/API/listUrlMusic.txt"), data);
         } catch (error) {
             console.log(error);
         }
@@ -274,10 +302,19 @@ const {imageDefault} = require("./imageDefault.js");
         fs.writeFileSync(path.join(__dirname.replace("public","src"), "/API/" + name + ".txt"), "");
     };
 
-    const appendUrlIntpPlayListMusic = async (name, url) => {
+    const deletePlayList = async (event, name) => {
+        fs.unlinkSync(path.join(__dirname.replace("public","src"), "/API/" + name + ".txt"));
+    }
+
+    const appendUrlIntoPlayListMusic = async (name, url) => {
         console.log(url);
         console.log(name);
         fs.appendFileSync(path.join(__dirname.replace("public","src"), "/API/" + name + ".txt"), url + "\n");
+    }
+
+    const appendUrlIntoLoveMusic = async (url) => {
+        console.log(url);
+        fs.appendFileSync(path.join(__dirname.replace("public","src"), "/API/loveMusic.txt"), url + "\n");
     }
 
     const saveMusicIntoPlayList = async (event, name, url) => {
@@ -285,9 +322,23 @@ const {imageDefault} = require("./imageDefault.js");
             const data = fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/" + name + ".txt"));
             if (!data.toString().includes(url)) {
                 console.log('fileMP3Handle: inside mehtod saveMusicIntoPlayList(), message: thuc hien them url vao file(da tao)');
-                await appendUrlIntpPlayListMusic(name, url);
+                await appendUrlIntoPlayListMusic(name, url);
             } else {
                 console.log('fileMP3Handle: inside mehtod saveMusicIntoPlayList(), message: url da ton tai!');
+            }
+        } catch (error) {
+            console.log(error);
+        } 
+    }
+
+    const saveLoveMusic = async (event, url) => {
+        try {
+            const data = fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/loveMusic.txt"));
+            if (!data.toString().includes(url)) {
+                console.log('fileMP3Handle: inside mehtod saveLoveMusic(), message: thuc hien them url vao file(da tao)');
+                await appendUrlIntoLoveMusic(url);
+            } else {
+                console.log('fileMP3Handle: inside mehtod saveLoveMusic(), message: url da ton tai!');
             }
         } catch (error) {
             console.log(error);
@@ -297,5 +348,5 @@ const {imageDefault} = require("./imageDefault.js");
 module.exports = {
     imageDefault, addMusic, togglePause, loadListMusic, playMusic, deleteMusic, loadListMusicRecent,
      jumpTimeMusic, stopMusic, getState, changeVolume, getValueVolume, saveUrlRecent, deleteMusicRecent,
-     createPlayList, saveMusicIntoPlayList, loadPlayList
+     createPlayList, saveMusicIntoPlayList, loadPlayList, deletePlayList, saveLoveMusic, loadLoveMusic
 };

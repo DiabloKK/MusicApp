@@ -56,4 +56,15 @@ export const useFileMP3Store = create((set, get) => ({
     async addMusicPlayList(name, url) {
         await window.fileMp3API.addMusicPlayList(name, url);
     },
+    async deletePlayList(name) {
+        await window.fileMp3API.deletePlayList(name);
+    },
+    async addLoveMusic(url) {
+        await window.fileMp3API.addLoveMusic(url);
+    },
+    async loadLoveMusic() {
+        const listRecentMusic = await window.fileMp3API.loadLoveMusic();
+        console.log('useFileMP3Store: inside method loadLove(), listMusic:\n');
+        return listRecentMusic;
+    }
 }));

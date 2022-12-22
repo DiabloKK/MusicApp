@@ -12,7 +12,7 @@ function PlayQueue() {
         <div className={cx('PlayQueue')}>
             <Header name="Play queue" />
             <div className={cx('content')}>
-                <AudioList />
+                <AudioList type='love' />
             </div>
         </div>
     );

@@ -3,13 +3,11 @@
 /home/noir/Music/Xin-Dung-Lang-Im.mp3
 /home/noir/Music/Dieu-Anh-Biet.mp3
 /home/noir/Music/Tuy-Am.mp3
+/home/noir/Music/Suy-Nghi-Trong-.mp3
+/home/noir/Music/Phao-hong.mp3
+/home/noir/Music/Phia-Sau-Mot-Co-Gai.mp3
 /home/noir/Music/Nhu-Vay-Nhe.mp3
 /home/noir/Music/Dem-Ngay-Xa-Em.mp3
 /home/noir/Music/Cuoi-Thoi.mp3
-
-/home/noir/Music/Suy-Nghi-Trong-.mp3
-/home/noir/Music/Phia-Sau-Mot-Co-Gai.mp3
-/home/noir/Music/Phao-hong.mp3
 /home/noir/Music/Bai-nay-khong-de-di-dien.mp3
-/home/noir/Music/Anh-Khac-Hay-Em-Khac-Khac-Viet.mp3
 

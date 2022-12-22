@@ -11,7 +11,6 @@ function Add({ label = 'Add' }) {
 
     const handle = async (e) => {
         await addMusic();
-        await stopMusic();
     };
     return (
         <div className={cx('Add-container')}>
