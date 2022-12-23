@@ -10,7 +10,7 @@ import { Albums } from '~/API/Albums';
 const cx = classNames.bind(styles);
 
 function AudioList({ type = 'musicLibrary' }) {
-    const { loadListMusic, loadRecentMusic, loadLoveMusic } = useFileMP3Store();
+    const { loadListMusic, loadRecentMusic, loadQueueMusic } = useFileMP3Store();
     const [songs, setSongs] = useState([]);
 
     useEffect(() => {
@@ -19,9 +19,10 @@ function AudioList({ type = 'musicLibrary' }) {
             switch (type) {
                 case 'home':
                     list = await loadRecentMusic();
+                    list = list.reverse();
                     break;
-                case 'love':
-                    list = await loadLoveMusic();
+                case 'queue':
+                    list = await loadQueueMusic();
                     break;
                 default:
                     list = await loadListMusic();

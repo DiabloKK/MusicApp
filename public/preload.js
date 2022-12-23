@@ -52,10 +52,13 @@ contextBridge.exposeInMainWorld('fileMp3API', {
     deletePlayList: (name) => {
         ipcRenderer.invoke('delete-playlist', name);
     },
-    addLoveMusic: (url) => {
-        ipcRenderer.invoke('save-love-music', url);
+    addQueueMusic: (url) => {
+        ipcRenderer.invoke('save-queue-music', url);
     },
-    loadLoveMusic: () => {
-        return ipcRenderer.invoke('load-love-music');
+    loadQueueMusic: () => {
+        return ipcRenderer.invoke('load-queue-music');
+    },
+    loadNamePlayList: () => {
+        return ipcRenderer.invoke('load-name-playlist');
     }
 });

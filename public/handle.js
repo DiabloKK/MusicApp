@@ -112,7 +112,7 @@ const {imageDefault} = require("./imageDefault.js");
             const { stdout } = await execAsync(cmd);
             const listMusic = JSON.parse(stdout);
             for (let i = 0; i < listMusic.length; i++) {
-                listMusic[i]['id'] = i + 1;
+                listMusic[i]['id'] = listMusic.length - i;
                 listMusic[i]['Duration'] = listMusic[i]['Duration'].split(' ')[0];
                 listMusic[i]['Duration'] = listMusic[i]['Duration'].substring(2);
                 if (listMusic[i]['Picture'] === undefined) {
@@ -158,10 +158,10 @@ const {imageDefault} = require("./imageDefault.js");
         }
     }
 
-    const loadLoveMusic = async () => {
+    const loadQueueMusic = async () => {
         try {
             console.log("loadLoveMusic in electron");
-            const data = await fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/loveMusic.txt"));
+            const data = await fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/queueMusic.txt"));
             const listUrls = data.toString().split('\n');
     
             const cmd = 'exiftool -artist -title -duration -picture -b -j ' + listUrls.join(' ');
@@ -301,6 +301,7 @@ const {imageDefault} = require("./imageDefault.js");
     const createPlayList = async (event, name) => {
         console.log(name);
         fs.writeFileSync(path.join(__dirname.replace("public","src"), "/API/" + name + ".txt"), "");
+        saveNamePlayList(name);
     };
 
     const deletePlayList = async (event, name) => {
@@ -313,9 +314,14 @@ const {imageDefault} = require("./imageDefault.js");
         fs.appendFileSync(path.join(__dirname.replace("public","src"), "/API/" + name + ".txt"), url + "\n");
     }
 
-    const appendUrlIntoLoveMusic = async (url) => {
+    const appendUrlIntoQueueMusic = async (url) => {
         console.log(url);
-        fs.appendFileSync(path.join(__dirname.replace("public","src"), "/API/loveMusic.txt"), url + "\n");
+        fs.appendFileSync(path.join(__dirname.replace("public","src"), "/API/queueMusic.txt"), url + "\n");
+    }
+
+    const appendNameIntoListPlayList = async (name) => {
+        console.log(name);
+        fs.appendFileSync(path.join(__dirname.replace("public","src"), "/API/listPlayList.txt"), name + "\n");
     }
 
     const saveMusicIntoPlayList = async (event, name, url) => {
@@ -332,22 +338,42 @@ const {imageDefault} = require("./imageDefault.js");
         } 
     }
 
-    const saveLoveMusic = async (event, url) => {
+    const saveQueueMusic = async (event, url) => {
         try {
-            const data = fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/loveMusic.txt"));
+            const data = fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/queueMusic.txt"));
             if (!data.toString().includes(url)) {
-                console.log('fileMP3Handle: inside mehtod saveLoveMusic(), message: thuc hien them url vao file(da tao)');
-                await appendUrlIntoLoveMusic(url);
+                console.log('fileMP3Handle: inside mehtod saveQueueMusic(), message: thuc hien them url vao file(da tao)');
+                await appendUrlIntoQueueMusic(url);
             } else {
-                console.log('fileMP3Handle: inside mehtod saveLoveMusic(), message: url da ton tai!');
+                console.log('fileMP3Handle: inside mehtod saveQueueMusic(), message: url da ton tai!');
             }
         } catch (error) {
             console.log(error);
         } 
     }
 
+    const saveNamePlayList = async (name) => {
+        try {
+            const data = fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/listPlayList.txt"));
+            if (!data.toString().includes(name+'\n')) {
+                console.log('fileMP3Handle: inside mehtod saveNamePlayList(), message: thuc hien them url vao file(da tao)');
+                await appendNameIntoListPlayList(name);
+            } else {
+                console.log('fileMP3Handle: inside mehtod saveNamePlayList(), message: url da ton tai!');
+            }
+        } catch (error) {
+            console.log(error);
+        } 
+    }
+
+    const loadNamePlayList = async () => {
+        const data = fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/listPlayList.txt"));
+        console.log(data.toString());
+        return data.toString();
+    }
+
 module.exports = {
     imageDefault, addMusic, togglePause, loadListMusic, playMusic, deleteMusic, loadListMusicRecent,
      jumpTimeMusic, stopMusic, getState, changeVolume, getValueVolume, saveUrlRecent, deleteMusicRecent,
-     createPlayList, saveMusicIntoPlayList, loadPlayList, deletePlayList, saveLoveMusic, loadLoveMusic
+     createPlayList, saveMusicIntoPlayList, loadPlayList, deletePlayList, saveQueueMusic, loadQueueMusic, loadNamePlayList
 };

@@ -37,8 +37,13 @@ function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
         jumpTimeMusic,
         deletePlayList,
         addLoveMusic,
+        loadNamePlayList,
         addRecentMusic
     } = useFileMP3Store();
+
+    createPlayList("khang");
+    createPlayList("hoang");
+    console.log(loadNamePlayList());
 
     const [currentime, setCurrentime] = useState(0);
     const [percentPB, setPercentPB] = useState(0);

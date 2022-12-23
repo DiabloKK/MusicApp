@@ -8,8 +8,8 @@ const execAsync = promisify(exec);
 const path = require('path');
 const fs = require('fs');
 const { addMusic, togglePause, loadListMusic, playMusic, deleteMusic, deleteMusicRecent, loadListMusicRecent,
-    jumpTimeMusic, stopMusic, getState, changeVolume, getValueVolume, saveUrlRecent,
-    createPlayList, saveMusicIntoPlayList, loadPlayList, deletePlayList, saveLoveMusic, loadLoveMusic } = require('./handle.js');
+    jumpTimeMusic, stopMusic, getState, changeVolume, getValueVolume, saveUrlRecent,loadNamePlayList,
+    createPlayList, saveMusicIntoPlayList, loadPlayList, deletePlayList, saveQueueMusic, loadQueueMusic } = require('./handle.js');
 
 function createWindow() {
     //Create server moc
@@ -36,7 +36,7 @@ function createWindow() {
     window.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
 
     ipcMain.on('close', () => {
-        //Close server moc
+        //Close server mocSS
         execAsync('mocp -x');
 
         window.close();
@@ -59,8 +59,9 @@ function createWindow() {
     ipcMain.handle('add-music-playlist', saveMusicIntoPlayList);
     ipcMain.handle('load-playlist', loadPlayList);
     ipcMain.handle('delete-playlist', deletePlayList);
-    ipcMain.handle('save-love-music', saveLoveMusic);
-    ipcMain.handle('load-love-music', loadLoveMusic);
+    ipcMain.handle('save-queue-music', saveQueueMusic);
+    ipcMain.handle('load-queue-music', loadQueueMusic);
+    ipcMain.handle('load-name-playlist', loadNamePlayList);
 }
 
 app.whenReady().then(() => {
