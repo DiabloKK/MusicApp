@@ -3,6 +3,7 @@ import styles from './Audio.module.scss';
 import { AddPlayListIcon, AddPlayQueueIcon, DeleteIcon, PlayQueueIcon, MusicLiBraryIcon } from '~/assets/icons';
 import MenuPlaylist from '~/components/MenuPlaylist';
 import { useState, useEffect } from 'react';
+import { useFileMP3Store } from '~/store/useFileMP3Store';
 
 import 'tippy.js/themes/light.css';
 import Tippy from '@tippyjs/react';
@@ -24,9 +25,12 @@ function Audio({ song, ad }) {
     const [isAddToQueue, setIsAddToQueue] = useState(true);
     const [isAddMusicLibrary, setIsAddMusicLibrary] = useState(true);
     const [isAddPlaylist, setIsAddPlaylist] = useState(true);
+
+    const { addQueueMusic } = useFileMP3Store();
+
     useEffect(() => {
         const path = window.location.pathname;
-        console.log(path);
+
         if (path.includes('musicLibrary')) {
             setIsAddMusicLibrary(false);
             setIsAddToQueue(true);
@@ -77,7 +81,7 @@ function Audio({ song, ad }) {
                         <span
                             className={cx('icon')}
                             onClick={(event) => {
-                                setIsOpenD(true);
+                                addQueueMusic(song.SourceFile);
                                 event.stopPropagation();
                             }}
                         >
@@ -111,7 +115,7 @@ function Audio({ song, ad }) {
                         </MenuPlaylist>
                     </Tippy>
                 )}
-                {isOpenD && <ModalDelete setIsOpen={setIsOpenD} />}
+                {isOpenD && <ModalDelete setIsOpen={setIsOpenD} song={song} />}
                 {isAddMusicLibrary && (
                     <Tippy delay={[0, 200]} content="Add Library" placement="top" theme="light">
                         <span

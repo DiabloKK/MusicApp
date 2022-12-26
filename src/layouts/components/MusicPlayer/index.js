@@ -30,20 +30,12 @@ function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
         togglePause,
         stopMusic,
         loadListMusic,
+        loadQueueMusic,
         getState,
-        deleteRecentMusic,
-        createPlayList,
-        addMusicPlayList,
         jumpTimeMusic,
-        deletePlayList,
-        addLoveMusic,
-        loadNamePlayList,
-        addRecentMusic
+        loadRecentMusic,
+        addRecentMusic,
     } = useFileMP3Store();
-
-    createPlayList("khang");
-    createPlayList("hoang");
-    console.log(loadNamePlayList());
 
     const [currentime, setCurrentime] = useState(0);
     const [percentPB, setPercentPB] = useState(0);
@@ -87,6 +79,7 @@ function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
         return totalTime;
     };
     useEffect(() => {
+       
         if (context.pathSong.includes('musicLibrary')) {
             setIsAddMusicLibrary(false);
             setIsAddToQueue(true);
@@ -139,14 +132,47 @@ function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
     }, [song]);
 
     const nextSong = async () => {
-        const Songs = await loadListMusic();
+        var Songs;
+        const path = window.location.pathname;
+
+        if (path.includes('musicLibrary')) {
+            Songs = await loadListMusic();
+        }
+        if (path.includes('playQueue')) {
+            Songs = await loadQueueMusic();
+        }
+        if (path.includes('playList')) {
+            Songs = await loadListMusic();
+        }
+        if (path === '/') {
+            Songs = await loadRecentMusic();
+            Songs.reverse();
+        }
+        console.log(Songs);
+
         let nextSong = songCurrent.current + 1;
         if (nextSong > Songs.length) nextSong = 1;
         context.ChangeSong(Songs[nextSong - 1]);
     };
 
     const backSong = async () => {
-        const Songs = await loadListMusic();
+        var Songs;
+        const path = window.location.pathname;
+
+        if (path.includes('musicLibrary')) {
+            Songs = await loadListMusic();
+        }
+        if (path.includes('playQueue')) {
+            Songs = await loadQueueMusic();
+        }
+        if (path.includes('playList')) {
+            Songs = await loadListMusic();
+        }
+        if (path === '/') {
+            Songs = await loadRecentMusic();
+            Songs.reverse();
+        }
+        console.log(Songs);
         let nextSong = songCurrent.current - 1;
         if (nextSong < 1) nextSong = Songs.length;
         context.ChangeSong(Songs[nextSong - 1]);
@@ -164,7 +190,24 @@ function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
     };
 
     const runTime = async () => {
-        const Songs = await loadListMusic();
+        var Songs;
+        const path = window.location.pathname;
+
+        if (path.includes('musicLibrary')) {
+            Songs = await loadListMusic();
+        }
+        if (path.includes('playQueue')) {
+            Songs = await loadQueueMusic();
+        }
+        if (path.includes('playList')) {
+            Songs = await loadListMusic();
+        }
+        if (path === '/') {
+            Songs = await loadRecentMusic();
+            Songs.reverse();
+        }
+        console.log(Songs);
+
         interval.current = setInterval(async () => {
             const state = await getState();
             if (state.localeCompare('STOP') === 0) {

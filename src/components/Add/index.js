@@ -3,14 +3,19 @@ import { PlayListIcon, UploadFolderIcon } from '~/assets/icons';
 import styles from './Add.module.scss';
 import { BsChevronDown } from 'react-icons/bs';
 import { useFileMP3Store } from '../../store/useFileMP3Store';
+import { SongContext } from '~/hooks/SongContext';
+import { useContext } from 'react';
 import Artist from '../Artist/index';
 
 const cx = classNames.bind(styles);
 function Add({ label = 'Add' }) {
     const { addMusic, stopMusic } = useFileMP3Store();
+    const context = useContext(SongContext);
 
     const handle = async (e) => {
         await addMusic();
+        let count = context.count + 1;
+        context.ChangeCount(count);
     };
     return (
         <div className={cx('Add-container')}>

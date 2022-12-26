@@ -15,6 +15,9 @@ function createWindow() {
     //Create server moc
     execAsync('mocp -S');
 
+    //
+    fs.writeFileSync(path.join(__dirname.replace("public","src"), "/API/queueMusic.txt"),"");
+
     // Create the browser window.
     const window = new BrowserWindow({
         //  change to false to use AppBar

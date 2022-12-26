@@ -3,7 +3,7 @@ import images from '~/assets/images';
 const Albums = [
     {
         id: 'album1',
-        albumName: 'Skyler-2',
+        albumName: 'Yêu thích',
         artist: 'SonTungMTP',
         imgSrc: images.person6,
         Songs: [

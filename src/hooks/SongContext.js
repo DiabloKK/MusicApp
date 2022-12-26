@@ -6,6 +6,7 @@ function SongProvider({ children }) {
     const { loadListMusic } = useFileMP3Store();
     const [song, setSong] = useState([]);
     const [pathSong, setPathSong] = useState('');
+    const [count, setCount] = useState(0);
 
     useEffect(() => {
         const load = async () => {
@@ -22,10 +23,14 @@ function SongProvider({ children }) {
     const ChangePathSong = (pathSongCurrent) => {
         setPathSong(pathSongCurrent);
     };
-
+    const ChangeCount = (count) => {
+        setCount(count);
+    };
     const value = {
+        count,
         song,
         pathSong,
+        ChangeCount,
         ChangeSong,
         ChangePathSong,
     };

@@ -1,6 +1,8 @@
 import classNames from 'classnames/bind';
 import styles from './AudioList.module.scss';
 import Audio from '../Audio';
+import { SongContext } from '~/hooks/SongContext';
+import { useContext } from 'react';
 import { useEffect } from 'react';
 import { useFileMP3Store } from '~/store/useFileMP3Store';
 
@@ -12,6 +14,7 @@ const cx = classNames.bind(styles);
 function AudioList({ type = 'musicLibrary' }) {
     const { loadListMusic, loadRecentMusic, loadQueueMusic } = useFileMP3Store();
     const [songs, setSongs] = useState([]);
+    const context = useContext(SongContext);
 
     useEffect(() => {
         const load = async () => {
@@ -19,7 +22,7 @@ function AudioList({ type = 'musicLibrary' }) {
             switch (type) {
                 case 'home':
                     list = await loadRecentMusic();
-                    list = list.reverse();
+                    list.reverse();
                     break;
                 case 'queue':
                     list = await loadQueueMusic();
@@ -32,7 +35,7 @@ function AudioList({ type = 'musicLibrary' }) {
         };
 
         load();
-    }, []);
+    }, [context.count]);
 
     useEffect(() => {
         const path = window.location.pathname;
@@ -55,9 +58,7 @@ function AudioList({ type = 'musicLibrary' }) {
     }, []);
     return (
         <div className={cx('AudioList')}>
-            {songs.map((song) => (
-                <Audio key={song.id} song={song} />
-            ))}
+            {songs.length && songs.map((song) => <Audio key={song.id} song={song} />)}
         </div>
     );
 }
