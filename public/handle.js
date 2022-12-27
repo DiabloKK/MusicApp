@@ -77,7 +77,7 @@ const {imageDefault} = require("./imageDefault.js");
     
     const loadListMusic = async () => {
         try {
-            const data = await fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/listUrlMusic.txt"));
+            const data = await fs.readFileSync("/home/noir/Desktop/PBL4-4/MusicApp/src/API/listUrlMusic.txt");
             const listUrls = data.toString().split('\n');
     
             const cmd = 'exiftool -artist -title -duration -picture -b -j ' + listUrls.join(' ');
@@ -105,7 +105,7 @@ const {imageDefault} = require("./imageDefault.js");
     const loadListMusicRecent = async () => {
         try {
             console.log("loadRecentMusic in electron");
-            const data = await fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/recentMusic.txt"));
+            const data = await fs.readFileSync("/home/noir/Desktop/PBL4-4/MusicApp/src/API/recentMusic.txt");
             const listUrls = data.toString().split('\n');
     
             const cmd = 'exiftool -artist -title -duration -picture -b -j ' + listUrls.join(' ');
@@ -133,7 +133,7 @@ const {imageDefault} = require("./imageDefault.js");
     const loadPlayList = async (event, name) => {
         try {
             console.log("loadPlayList in electron");
-            const data = await fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/" + name + ".txt"));
+            const data = await fs.readFileSync("/home/noir/Desktop/PBL4-4/MusicApp/src/API/" + name + ".txt");
             const listUrls = data.toString().split('\n');
     
             const cmd = 'exiftool -artist -title -duration -picture -b -j ' + listUrls.join(' ');
@@ -161,7 +161,7 @@ const {imageDefault} = require("./imageDefault.js");
     const loadQueueMusic = async () => {
         try {
             console.log("loadLoveMusic in electron");
-            const data = await fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/queueMusic.txt"));
+            const data = await fs.readFileSync("/home/noir/Desktop/PBL4-4/MusicApp/src/API/queueMusic.txt");
             const listUrls = data.toString().split('\n');
     
             const cmd = 'exiftool -artist -title -duration -picture -b -j ' + listUrls.join(' ');
@@ -188,7 +188,7 @@ const {imageDefault} = require("./imageDefault.js");
     
     const saveUrl = async (url) => {
         try {
-            const data = fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/listUrlMusic.txt"));
+            const data = fs.readFileSync("/home/noir/Desktop/PBL4-4/MusicApp/src/API/listUrlMusic.txt");
             if (!data.toString().includes(url)) {
                 console.log('fileMP3Handle: inside mehtod saveUrl(), message: thuc hien them url vao file(da tao)');
                 return await appendUrlIntoFile(url);
@@ -204,7 +204,7 @@ const {imageDefault} = require("./imageDefault.js");
     
     const appendUrlIntoFile = async (url) =>
         new Promise((resolve, reject) => {
-            fs.appendFile(path.join(__dirname.replace("public","src"), "/API/listUrlMusic.txt"), url, (err) => {
+            fs.appendFile("/home/noir/Desktop/PBL4-4/MusicApp/src/API/listUrlMusic.txt", url, (err) => {
                 if (err) {
                     console.log('fileMP3Handle: inside mehtod appendUrlIntoFile(), loi khi them url vao file: ' + err);
                 } else {
@@ -255,10 +255,10 @@ const {imageDefault} = require("./imageDefault.js");
     
     const deleteMusic = async (event, url) => {
         try {
-            let data = await fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/listUrlMusic.txt"));
+            let data = await fs.readFileSync("/home/noir/Desktop/PBL4-4/MusicApp/src/API/listUrlMusic.txt");
             data = data.toString();
             data = data.replace(url + '\n', '');
-            await fs.writeFileSync(path.join(__dirname.replace("public","src"), "/API/listUrlMusic.txt"), data);
+            await fs.writeFileSync("/home/noir/Desktop/PBL4-4/MusicApp/src/API/listUrlMusic.txt", data);
         } catch (error) {
             console.log(error);
         }
@@ -266,12 +266,12 @@ const {imageDefault} = require("./imageDefault.js");
 
     const appendUrlIntoRecentMusic = async (url) => {   
         console.log(url);
-        fs.appendFileSync(path.join(__dirname.replace("public","src"), "/API/recentMusic.txt"), url + "\n");
+        fs.appendFileSync("/home/noir/Desktop/PBL4-4/MusicApp/src/API/recentMusic.txt", url + "\n");
     }
     
     const saveUrlRecent = async (event, url) => {
         try {
-            const data = fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/recentMusic.txt"));
+            const data = fs.readFileSync("/home/noir/Desktop/PBL4-4/MusicApp/src/API/recentMusic.txt");
             if (!data.toString().includes(url)) {
                 console.log('fileMP3Handle: inside mehtod saveUrlRecent(), message: thuc hien them url vao file(da tao)');
                 await appendUrlIntoRecentMusic(url);
@@ -289,10 +289,21 @@ const {imageDefault} = require("./imageDefault.js");
 
     const deleteMusicRecent = async (event, url) => {
         try {
-            let data = await fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/recentMusic.txt"));
+            let data = await fs.readFileSync("/home/noir/Desktop/PBL4-4/MusicApp/src/API/recentMusic.txt");
             data = data.toString();
             data = data.replace(url + '\n', '');
-            await fs.writeFileSync(path.join(__dirname.replace("public","src"), "/API/recentMusic.txt"), data);
+            await fs.writeFileSync("/home/noir/Desktop/PBL4-4/MusicApp/src/API/recentMusic.txt", data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const deleteMusicQueue = async (event, url) => {
+        try {
+            let data = await fs.readFileSync("/home/noir/Desktop/PBL4-4/MusicApp/src/API/queueMusic.txt");
+            data = data.toString();
+            data = data.replace(url + '\n', '');
+            await fs.writeFileSync("/home/noir/Desktop/PBL4-4/MusicApp/src/API/queueMusic.txt", data);
         } catch (error) {
             console.log(error);
         }
@@ -300,33 +311,33 @@ const {imageDefault} = require("./imageDefault.js");
 
     const createPlayList = async (event, name) => {
         console.log(name);
-        fs.writeFileSync(path.join(__dirname.replace("public","src"), "/API/" + name + ".txt"), "");
+        fs.writeFileSync("/home/noir/Desktop/PBL4-4/MusicApp/src/API/" + name + ".txt", "");
         saveNamePlayList(name);
     };
 
     const deletePlayList = async (event, name) => {
-        fs.unlinkSync(path.join(__dirname.replace("public","src"), "/API/" + name + ".txt"));
+        fs.unlinkSync("/home/noir/Desktop/PBL4-4/MusicApp/src/API/" + name + ".txt");
     }
 
     const appendUrlIntoPlayListMusic = async (name, url) => {
         console.log(url);
         console.log(name);
-        fs.appendFileSync(path.join(__dirname.replace("public","src"), "/API/" + name + ".txt"), url + "\n");
+        fs.appendFileSync("/home/noir/Desktop/PBL4-4/MusicApp/src/API/" + name + ".txt", url + "\n");
     }
 
     const appendUrlIntoQueueMusic = async (url) => {
         console.log(url);
-        fs.appendFileSync(path.join(__dirname.replace("public","src"), "/API/queueMusic.txt"), url + "\n");
+        fs.appendFileSync("/home/noir/Desktop/PBL4-4/MusicApp/src/API/queueMusic.txt", url + "\n");
     }
 
     const appendNameIntoListPlayList = async (name) => {
         console.log(name);
-        fs.appendFileSync(path.join(__dirname.replace("public","src"), "/API/listPlayList.txt"), name + "\n");
+        fs.appendFileSync("/home/noir/Desktop/PBL4-4/MusicApp/src/API/listPlayList.txt", name + "\n");
     }
 
     const saveMusicIntoPlayList = async (event, name, url) => {
         try {
-            const data = fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/" + name + ".txt"));
+            const data = fs.readFileSync("/home/noir/Desktop/PBL4-4/MusicApp/src/API/" + name + ".txt");
             if (!data.toString().includes(url)) {
                 console.log('fileMP3Handle: inside mehtod saveMusicIntoPlayList(), message: thuc hien them url vao file(da tao)');
                 await appendUrlIntoPlayListMusic(name, url);
@@ -340,7 +351,7 @@ const {imageDefault} = require("./imageDefault.js");
 
     const saveQueueMusic = async (event, url) => {
         try {
-            const data = fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/queueMusic.txt"));
+            const data = fs.readFileSync("/home/noir/Desktop/PBL4-4/MusicApp/src/API/queueMusic.txt");
             if (!data.toString().includes(url)) {
                 console.log('fileMP3Handle: inside mehtod saveQueueMusic(), message: thuc hien them url vao file(da tao)');
                 await appendUrlIntoQueueMusic(url);
@@ -354,7 +365,7 @@ const {imageDefault} = require("./imageDefault.js");
 
     const saveNamePlayList = async (name) => {
         try {
-            const data = fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/listPlayList.txt"));
+            const data = fs.readFileSync("/home/noir/Desktop/PBL4-4/MusicApp/src/API/listPlayList.txt");
             if (!data.toString().includes(name+'\n')) {
                 console.log('fileMP3Handle: inside mehtod saveNamePlayList(), message: thuc hien them url vao file(da tao)');
                 await appendNameIntoListPlayList(name);
@@ -367,13 +378,14 @@ const {imageDefault} = require("./imageDefault.js");
     }
 
     const loadNamePlayList = async () => {
-        const data = fs.readFileSync(path.join(__dirname.replace("public","src"), "/API/listPlayList.txt"));
-        console.log(data.toString());
-        return data.toString();
+        const data = fs.readFileSync("/home/noir/Desktop/PBL4-4/MusicApp/src/API/listPlayList.txt");
+        const result = data.toString().split('\n');
+        console.log(result);
+        return result;
     }
 
 module.exports = {
     imageDefault, addMusic, togglePause, loadListMusic, playMusic, deleteMusic, loadListMusicRecent,
-     jumpTimeMusic, stopMusic, getState, changeVolume, getValueVolume, saveUrlRecent, deleteMusicRecent,
+     jumpTimeMusic, stopMusic, getState, changeVolume, getValueVolume, saveUrlRecent, deleteMusicRecent, deleteMusicQueue,
      createPlayList, saveMusicIntoPlayList, loadPlayList, deletePlayList, saveQueueMusic, loadQueueMusic, loadNamePlayList
 };

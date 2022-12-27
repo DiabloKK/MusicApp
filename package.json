@@ -2,6 +2,7 @@
     "name": "musicapp",
     "version": "1.0.0",
     "windowtitle": "Music HK",
+    "homepage": "./",
     "main": "public/electron.js",
     "author": {
         "name": "KhangHoang",
@@ -100,11 +101,13 @@
     },
     "browserslist": {
         "production": [
+            "last 1 electron version",
             ">0.2%",
             "not dead",
             "not op_mini all"
         ],
         "development": [
+            "last 1 electron version",
             "last 1 chrome version",
             "last 1 firefox version",
             "last 1 safari version"

@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer } = require('electron');
+const { contextBridge, ipcRenderer, ipcMain } = require('electron');
 
 contextBridge.exposeInMainWorld('fileMp3API', {
     addMusic: () => {
@@ -57,6 +57,9 @@ contextBridge.exposeInMainWorld('fileMp3API', {
     },
     loadQueueMusic: () => {
         return ipcRenderer.invoke('load-queue-music');
+    },
+    deleteQueueMusic: (url) => {
+        ipcRenderer.invoke('delete-queue-music', url);
     },
     loadNamePlayList: () => {
         return ipcRenderer.invoke('load-name-playlist');

@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './AlbumList.module.scss';
-import { Albums } from '~/API/Albums';
 import Album from '../Album';
+import { Albums } from '~/API/Albums';
 
 const cx = classNames.bind(styles);
 

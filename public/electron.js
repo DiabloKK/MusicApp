@@ -1,14 +1,15 @@
 // Native
 const { exec } = require('child_process');
 const { promisify } = require('util');
-const { BrowserWindow, app, ipcMain } = require('electron');
-const isDev = require('electron-is-dev');
+const { BrowserWindow, app, ipcMain, protocol } = require('electron');
+// const isDev = require('electron-is-dev');
+const url = require("url");
 const { join } = require('path');
 const execAsync = promisify(exec);
 const path = require('path');
 const fs = require('fs');
 const { addMusic, togglePause, loadListMusic, playMusic, deleteMusic, deleteMusicRecent, loadListMusicRecent,
-    jumpTimeMusic, stopMusic, getState, changeVolume, getValueVolume, saveUrlRecent,loadNamePlayList,
+    jumpTimeMusic, stopMusic, getState, changeVolume, getValueVolume, saveUrlRecent,loadNamePlayList, deleteMusicQueue,
     createPlayList, saveMusicIntoPlayList, loadPlayList, deletePlayList, saveQueueMusic, loadQueueMusic } = require('./handle.js');
 
 function createWindow() {
@@ -36,7 +37,17 @@ function createWindow() {
 
     window.maximize();
 
-    window.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
+    // window.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
+    const appURL = app.isPackaged
+    ? url.format({
+        pathname: path.join(__dirname, "index.html"),
+        protocol: "file:",
+        slashes: true,
+      })
+    : "http://localhost:3000";
+    window.loadURL(appURL);
+
+    
 
     ipcMain.on('close', () => {
         //Close server mocSS
@@ -64,11 +75,26 @@ function createWindow() {
     ipcMain.handle('delete-playlist', deletePlayList);
     ipcMain.handle('save-queue-music', saveQueueMusic);
     ipcMain.handle('load-queue-music', loadQueueMusic);
+    ipcMain.handle('delete-queue-music', deleteMusicQueue);
     ipcMain.handle('load-name-playlist', loadNamePlayList);
 }
 
+function setupLocalFilesNormalizerProxy() {
+    protocol.registerHttpProtocol(
+      "file",
+      (request, callback) => {
+        const url = request.url.substr(8);
+        callback({ path: path.normalize(`${__dirname}/${url}`) });
+      },
+      (error) => {
+        if (error) console.error("Failed to register protocol");
+      }
+    );
+  }
+
 app.whenReady().then(() => {
     createWindow();
+    setupLocalFilesNormalizerProxy();
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow();
     });
