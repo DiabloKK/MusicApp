@@ -1,9 +1,10 @@
 {
-    "name": "musicapp",
+    "name": "MusicPlayer",
     "version": "1.0.0",
     "windowtitle": "Music HK",
     "homepage": "./",
     "main": "public/electron.js",
+    "description": "PBL4",
     "author": {
         "name": "KhangHoang",
         "email": "vokhuong1403@mail.com"
@@ -65,7 +66,7 @@
         "dist": "npm run build && electron-builder"
     },
     "build": {
-        "appId": "johnny.portfolio.game2048",
+        "appId": "your.id",
         "asar": false,
         "linux": {
             "target": [
@@ -73,7 +74,7 @@
                 "deb"
             ],
             "category": "Utility",
-            "icon": "icons/"
+            "icon": "icons/256x256.png"
         }
     },
     "eslintConfig": {
