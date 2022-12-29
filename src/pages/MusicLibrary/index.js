@@ -28,7 +28,7 @@ function MusicLibrary() {
                     <Route path="/albums" element={<AblumList type="albums" />} />
                     <Route path="/albums/@:idAblum" element={<AudioList type='albums' />} />
                     <Route path="/artists" element={<ArtistList />} />
-                    <Route path="/artists/@:idAblum" element={<AudioList />} />
+                    <Route path="/artists/@:idAblum" element={<AudioList type='artist' />} />
                 </Routes>
             </div>
         </div>

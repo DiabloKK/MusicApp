@@ -7,9 +7,8 @@ const cx = classNames.bind(styles);
 function Artist({ Artist }) {
     return (
         <Link to={`/musicLibrary/artists/@${Artist.id}`} className={cx('Artist')}>
-            <img src={Artist.imgSrc} alt={Artist.albumName} />
+            <img src={`data:image/jpeg;base64,${Artist.imgSrc}`} alt={Artist.albumName} />
             <h4>{Artist.artist}</h4>
-            <i>artist</i>
         </Link>
     );
 }

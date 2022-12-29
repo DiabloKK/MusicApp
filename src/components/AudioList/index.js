@@ -9,7 +9,7 @@ import { useLocation } from 'react-router-dom';
 
 import { useState } from 'react';
 import { PlayList } from '~/API/PlayList';
-import { Albums } from '~/API/Albums';
+import { Albums, Artists } from '~/API/Albums';
 
 const cx = classNames.bind(styles);
 
@@ -34,6 +34,7 @@ function AudioList({ type = 'musicLibrary' }) {
                     break;
                 case 'playlist':
                 case 'albums':
+                case 'artist':
                     return;
                 default:
                     list = await loadListMusic();
@@ -49,14 +50,11 @@ function AudioList({ type = 'musicLibrary' }) {
         //console.log(path);
         if (path.includes('musicLibrary/albums/@')) {
             const id = path.slice(22);
-            console.log(id-1);
-            console.log(Albums[id-1]);
             setSongs(Albums[id-1].Songs);
         }
         if (path.includes('musicLibrary/artists/@')) {
             const id = path.slice(23);
-            console.log(PlayList.find((song) => song.id === id).Songs);
-            setSongs(PlayList.find((song) => song.id === id).Songs);
+            setSongs(Artists[id-1].Songs);
         }
         if (path.includes('playList/@')) {
             const id = path.slice(11);

@@ -1,14 +1,35 @@
 
 const Albums = [];
+const Artists = [];
 var listMusic = [];
 var nameAlbum = [];
+var nameArtist = [];
 
 const getListAlbum = async () => {
     listMusic = await window.fileMp3API.loadListMusic();
-    console.log(listMusic.length);
+
     for (var i=0; i<listMusic.length; i++) {
+
+        var name = listMusic[i]["Artist"];
+        if(!nameArtist.includes(name)) {
+            nameArtist.push(name);
+
+            var artist = new Object;
+
+            artist.id = Artists.length + 1;
+            artist.artist = name;
+            artist.Songs = [];
+            artist.Songs.push(listMusic[i]);
+            artist.imgSrc = listMusic[i]["Picture"];
+
+            Artists.push(artist);
+        } else {
+            const index = nameArtist.indexOf(name);
+            Artists[index].Songs.push(listMusic[i]);
+        }
+
         if(listMusic[i]["Album"] === undefined) continue;
-        const name = listMusic[i]["Album"].toString();
+        name = listMusic[i]["Album"].toString();
         if(!nameAlbum.includes(name)) {
             nameAlbum.push(name);
 
@@ -29,6 +50,5 @@ const getListAlbum = async () => {
 }
 
 getListAlbum();
-console.log(Albums);
 
-export { Albums };
+export { Albums, Artists };

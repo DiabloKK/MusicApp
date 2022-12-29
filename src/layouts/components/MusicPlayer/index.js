@@ -16,7 +16,7 @@ import { CiVolumeHigh, CiVolumeMute } from 'react-icons/ci';
 import { ProgressBar, ProgressBarColor } from '~/assets/Progressbar';
 import { AddPlayListIcon, DeleteIcon, PlayQueueIcon, MusicLiBraryIcon } from '~/assets/icons';
 import { PlayList } from '~/API/PlayList';
-import { Albums } from '~/API/Albums';
+
 
 import 'tippy.js/themes/light.css';
 import Tippy from '@tippyjs/react';
@@ -148,8 +148,6 @@ function MusicPlayer({  fullView = false, hideOnClick = false }) {
     const nextSong = async () => {
         var Songs;
 
-        console.log("AAAAAAAAAAAAAA");
-
         if (path.includes('musicLibrary')) {
             Songs = await loadListMusic();
         }
@@ -208,6 +206,8 @@ function MusicPlayer({  fullView = false, hideOnClick = false }) {
 
     const runTime = async () => {
         var Songs;
+
+        console.log(path);
 
         if (path.includes('musicLibrary')) {
             Songs = await loadListMusic();
