@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from './routes';
 import { DefaultLayout } from './layouts';
@@ -13,7 +13,12 @@ function App() {
     document.getElementById("volume").value = parseInt(value);
     }, 100);
 
+    // useEffect(() => {
+    //     window.location = '/';
+    // },[]);
+
     return (
+        // <h1>Hello</h1>
         <Router>
             <SongProvider>
                 <div className="App">

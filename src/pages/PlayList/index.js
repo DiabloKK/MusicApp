@@ -14,7 +14,7 @@ function Playlist() {
             <div className={cx('content')}>
                 <Routes>
                     <Route path="/" element={<AblumList name={name}/>} />
-                    <Route path="/@:idAblum" element={<AudioList/>} />
+                    <Route path="/@:idAblum" element={<AudioList type='playlist' />} />
                 </Routes>
             </div>
         </div>

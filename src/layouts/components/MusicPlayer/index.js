@@ -14,7 +14,7 @@ import MenuPlaylist from '~/components/MenuPlaylist';
 
 import { CiVolumeHigh, CiVolumeMute } from 'react-icons/ci';
 import { ProgressBar, ProgressBarColor } from '~/assets/Progressbar';
-import { AddPlayListIcon, AddPlayQueueIcon, DeleteIcon, PlayQueueIcon, MusicLiBraryIcon } from '~/assets/icons';
+import { AddPlayListIcon, DeleteIcon, PlayQueueIcon, MusicLiBraryIcon } from '~/assets/icons';
 import { Albums } from '~/API/Albums';
 
 import 'tippy.js/themes/light.css';
@@ -22,7 +22,7 @@ import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 
 const cx = classNames.bind(styles);
-function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
+function MusicPlayer({  fullView = false, hideOnClick = false }) {
     const context = useContext(SongContext);
 
     const {
@@ -35,8 +35,9 @@ function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
         jumpTimeMusic,
         loadRecentMusic,
         addRecentMusic,
+        loadPlayListMusic
     } = useFileMP3Store();
-
+    const [check, setCheck] = useState(false)
     const [currentime, setCurrentime] = useState(0);
     const [percentPB, setPercentPB] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -60,21 +61,24 @@ function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
 
     const handleTogglePlayMusic = async () => {
         if (!isPlaying) {
-            await playMusic(song.SourceFile);
-            await addRecentMusic(song.SourceFile);
+            await playMusic(context.song.SourceFile);
+            await addRecentMusic(context.song.SourceFile);
             setIsPlaying((isPlaying) => !isPlaying);
             runTime();
+            setCheck(true)
+
         } else {
             if (!isPause) clearInterval(interval.current);
             else runTime();
 
             await togglePause();
             setIsPause(!isPause);
+            setCheck(true)
         }
     };
 
     const getTotalTime = () => {
-        const array = song.Duration.split(':');
+        const array = context.song.Duration.split(':');
         const totalTime = Number(array[0]) * 60 + Number(array[1]);
         return totalTime;
     };
@@ -100,7 +104,7 @@ function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
             setIsAddToQueue(true);
             setIsAddPlaylist(false);
         }
-    });
+    },[context.song]);
 
     useEffect(() => {
         if (isPlaying && !isPause) {
@@ -109,6 +113,9 @@ function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
                 setPercentPB(percent);
                 progressbarcolor.current.style.cssText = `width: ${percent * 351}px`;
                 setCurrentime(currentime + 1);
+                if(currentime === getTotalTime()*10 ){
+                    setCheck((check)=>!check)
+                }
             }, 100);
 
             return () => clearTimeout(timeoutTime);
@@ -119,17 +126,18 @@ function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
     }, [fullView]);
 
     useEffect(() => {
-        if (songCurrent.current !== song.id && song.id !== undefined) {
-            songCurrent.current = song.id;
 
+        if (check&&context.song.id !== undefined) {
+            songCurrent.current = context.song.id;
             playRepeat();
         }
-    });
+    },[context.song]);
 
     useEffect(() => {
         setCurrentime(0);
         progressbarcolor.current.style.cssText = `width: 0px`;
-    }, [song]);
+        
+    }, [context.song]);
 
     const nextSong = async () => {
         var Songs;
@@ -142,7 +150,9 @@ function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
             Songs = await loadQueueMusic();
         }
         if (path.includes('playList')) {
-            Songs = await loadListMusic();
+            const path = window.location.pathname;
+            const id = path.slice(11);
+            Songs = await loadPlayListMusic(id);
         }
         if (path === '/') {
             Songs = await loadRecentMusic();
@@ -180,10 +190,11 @@ function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
 
     const playRepeat = async () => {
         stopMusic();
-        playMusic(song.SourceFile);
-        addRecentMusic(song.SourceFile);
+        playMusic(context.song.SourceFile);
+        addRecentMusic(context.song.SourceFile);
         setCurrentime(0);
         clearInterval(interval.current);
+
         runTime();
         setIsPlaying(true);
         setIsPause(false);
@@ -273,16 +284,16 @@ function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
     };
 
     return (
-        <>
+        <>  
             {!fullView ? (
                 <div className={cx('musicPlayer')}>
                     <div className={cx('m-container')}>
                         <div className={cx('m-image')}>
-                            <img src={`data:image/jpeg;base64,${song.Picture}`} alt="" />
+                            <img src={`data:image/jpeg;base64,${context.song.Picture}`} alt="" />
                         </div>
                         <div className={cx('m-inf')}>
-                            <p>{song.Title}</p>
-                            <span>{song.Artist}</span>
+                            <p>{context.song.Title}</p>
+                            <span>{context.song.Artist}</span>
                         </div>
                         <div className={cx('m-control')}>
                             <IoIosRepeat className={cx('left')} onClick={clickRepeat} />
@@ -312,7 +323,7 @@ function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
                             </div>
                         </div>
                         <span className={cx('time')}>
-                            <span>{song.Duration}</span>
+                            <span>{context.song.Duration}</span>
                         </span>
                     </div>
                     <div className={cx('container-vol')}>
@@ -330,7 +341,7 @@ function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
                 </div>
             ) : (
                 <div className={cx('musicPlayer_fullView')}>
-                    <img src={`data:image/jpeg;base64,${song.Picture}`} alt="" />
+                    <img src={`data:image/jpeg;base64,${context.song.Picture}`} alt="" />
                     <div className={cx('musicPlayerContainer_fullView')}>
                         <div className={cx('center')}>
                             <BsSkipStartFill className={cx('back')} onClick={backSong} />
@@ -345,10 +356,10 @@ function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
                             <BsSkipEndFill className={cx('next')} onClick={nextSong} />
                         </div>
                         <div className={cx('detailSong')}>
-                            <img src={`data:image/jpeg;base64,${song.Picture}`} alt="" />
+                            <img src={`data:image/jpeg;base64,${context.song.Picture}`} alt="" />
                             <div className={cx('m-inf')}>
-                                <p>{song.Title}</p>
-                                <span>{song.Artist}</span>
+                                <p>{context.song.Title}</p>
+                                <span>{context.song.Artist}</span>
                             </div>
                         </div>
 
@@ -422,7 +433,7 @@ function MusicPlayer({ song, fullView = false, hideOnClick = false }) {
                                 </div>
                             </div>
                             <span className={cx('time')}>
-                                <span>{song.Duration}</span>
+                                <span>{context.song.Duration}</span>
                             </span>
                         </div>
                         <div className={cx('modeIcons')}>

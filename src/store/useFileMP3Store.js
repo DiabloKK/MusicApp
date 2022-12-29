@@ -60,7 +60,7 @@ export const useFileMP3Store = create((set, get) => ({
         await window.fileMp3API.deletePlayList(name);
     },
     async loadPlayListMusic(name) {
-        const list = await window.fileMp3API.loadPlayListMusic(name);
+        const list = await window.fileMp3API.loadPlayList(name);
         console.log('useFileMP3Store: inside method loadPlayListMusic(), listMusic:\n');
         return list;
     },
@@ -80,4 +80,7 @@ export const useFileMP3Store = create((set, get) => ({
         console.log(listName);
         return listName;
     },
+    async deleteMusicPlaylist(name, url) {
+        await window.fileMp3API.deleteMusicPlaylist(name, url);
+    }
 }));

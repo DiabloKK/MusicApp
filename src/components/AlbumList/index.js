@@ -6,6 +6,7 @@ import { Albums } from '~/API/Albums';
 const cx = classNames.bind(styles);
 
 function AblumList({ name = 'albums' }) {
+
     console.log(name);
     return (
         <div className={cx('AlbumList')}>

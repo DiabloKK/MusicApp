@@ -9,7 +9,7 @@ function Album({ Album, name = 'albums' }) {
     return (
         // <Link to={`/musicLibrary/albums/@${Album.id}`} className={cx('Album')}>
         <Link to={`${name === 'albums' ? '/musicLibrary/albums' : '/playList'}/@${Album.id}`} className={cx('Album')}>
-            <img src={Album.imgSrc} alt={Album.albumName} />
+            <img src={`data:image/jpeg;base64,${Album.imgSrc}`} alt={Album.albumName} />
             <h4>{Album.albumName}</h4>
             <i>{Album.artist}</i>
         </Link>

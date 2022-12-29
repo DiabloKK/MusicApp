@@ -9,7 +9,7 @@ import { useState, useEffect, useRef } from 'react';
 const cx = classNames.bind(styles);
 
 const ModalDelete = ({ setIsOpen, song }) => {
-    const { deleteMusic, stopMusic, loadListMusic, loadRecentMusic, loadLoveMusic } = useFileMP3Store();
+    const { deleteMusic, stopMusic, loadListMusic, loadQueueMusic,loadRecentMusic, loadLoveMusic,deleteQueueMusic, deleteRecentMusic } = useFileMP3Store();
     const [songs, setSongs] = useState([]);
     const context = useContext(SongContext);
     useEffect(() => {
@@ -35,9 +35,22 @@ const ModalDelete = ({ setIsOpen, song }) => {
         load();
     }, []);
 
+    const nextSong = async () => {
+        if(context.pathSong === window.location.pathname && context.song.id === song.id){
+            if(song.id === songs.length){
+                context.ChangeSong(songs[0])
+            }
+            else{
+                songs[song.id] = {...songs[song.id],id: song.id}
+                context.ChangeSong(songs[song.id]);
+            }
+        }
+    };
+
     return (
         <>
             <div className={cx('darkBG')} onClick={() => setIsOpen(false)} />
+
             <div className={cx('centered')}>
                 <div className={cx('modal')}>
                     <div className={cx('modalHeader')}>
@@ -52,14 +65,22 @@ const ModalDelete = ({ setIsOpen, song }) => {
                             <button
                                 className={cx('deleteBtn')}
                                 onClick={(e) => {
-                                    console.log(song.id);
-
-                                    deleteMusic(song.SourceFile);
-                                    console.log(context.song);
+                                    const path = window.location.pathname;
+                                    if (path.includes('musicLibrary')) {
+                                        deleteMusic(song.SourceFile);
+                                    }
+                                    if (path.includes('playQueue')) {
+                                        deleteQueueMusic(song.SourceFile);
+                                    }
+                                        if (path.includes('playList')) {
+                                    }
+                                    if (path === '/') {
+                                        deleteRecentMusic(song.SourceFile);    
+                                    }
                                     let count = context.count + 1;
                                     context.ChangeCount(count);
-                                    context.ChangeSong(songs[song.id]);
-                                  
+
+                                    nextSong();
                                     setIsOpen(false);
                                     e.stopPropagation();
                                 }}

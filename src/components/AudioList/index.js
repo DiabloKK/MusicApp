@@ -27,6 +27,8 @@ function AudioList({ type = 'musicLibrary' }) {
                 case 'queue':
                     list = await loadQueueMusic();
                     break;
+                case 'playlist':
+                    return;
                 default:
                     list = await loadListMusic();
             }
@@ -52,6 +54,7 @@ function AudioList({ type = 'musicLibrary' }) {
         }
         if (path.includes('playList/@')) {
             const id = path.slice(11);
+            console.log(id);
             console.log(Albums.find((song) => song.id === id).Songs);
             setSongs(Albums.find((song) => song.id === id).Songs);
         }
