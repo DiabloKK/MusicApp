@@ -12,7 +12,7 @@ import 'tippy.js/dist/tippy.css';
 
 import { SongContext } from '~/hooks/SongContext';
 import { useContext } from 'react';
-import { Albums } from '~/API/Albums';
+import { PlayList } from '~/API/PlayList';
 import ModalDelete from '~/components/ModalDelete';
 
 const cx = classNames.bind(styles);
@@ -102,7 +102,7 @@ function Audio({ song, ad }) {
                 </Tippy>
                 {isAddPlaylist && (
                     <Tippy delay={[0, 200]} content="Add Playlist" placement="top" theme="light">
-                        <MenuPlaylist items={Albums} visible={visible} onClickOutside={() => setVisible(false)}>
+                        <MenuPlaylist items={PlayList} visible={visible} onClickOutside={() => setVisible(false)}>
                             <span
                                 className={cx('icon')}
                                 onClick={(event) => {

@@ -25,8 +25,8 @@ function MusicLibrary() {
             <div className={cx('content')}>
                 <Routes>
                     <Route path="/" element={<AudioList />} />
-                    <Route path="/albums" element={<AblumList />} />
-                    <Route path="/albums/@:idAblum" element={<AudioList />} />
+                    <Route path="/albums" element={<AblumList type="albums" />} />
+                    <Route path="/albums/@:idAblum" element={<AudioList type='albums' />} />
                     <Route path="/artists" element={<ArtistList />} />
                     <Route path="/artists/@:idAblum" element={<AudioList />} />
                 </Routes>

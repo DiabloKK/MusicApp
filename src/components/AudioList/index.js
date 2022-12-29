@@ -8,6 +8,7 @@ import { useFileMP3Store } from '~/store/useFileMP3Store';
 import { useLocation } from 'react-router-dom';
 
 import { useState } from 'react';
+import { PlayList } from '~/API/PlayList';
 import { Albums } from '~/API/Albums';
 
 const cx = classNames.bind(styles);
@@ -32,6 +33,7 @@ function AudioList({ type = 'musicLibrary' }) {
                     list = await loadQueueMusic();
                     break;
                 case 'playlist':
+                case 'albums':
                     return;
                 default:
                     list = await loadListMusic();
@@ -47,19 +49,20 @@ function AudioList({ type = 'musicLibrary' }) {
         //console.log(path);
         if (path.includes('musicLibrary/albums/@')) {
             const id = path.slice(22);
-            console.log(Albums.find((song) => song.id === id).Songs);
-            setSongs(Albums.find((song) => song.id === id).Songs);
+            console.log(id-1);
+            console.log(Albums[id-1]);
+            setSongs(Albums[id-1].Songs);
         }
         if (path.includes('musicLibrary/artists/@')) {
             const id = path.slice(23);
-            console.log(Albums.find((song) => song.id === id).Songs);
-            setSongs(Albums.find((song) => song.id === id).Songs);
+            console.log(PlayList.find((song) => song.id === id).Songs);
+            setSongs(PlayList.find((song) => song.id === id).Songs);
         }
         if (path.includes('playList/@')) {
             const id = path.slice(11);
             console.log(id);
-            console.log(Albums.find((song) => song.id === id).Songs);
-            setSongs(Albums.find((song) => song.id === id).Songs);
+            console.log(PlayList.find((song) => song.id === id).Songs);
+            setSongs(PlayList.find((song) => song.id === id).Songs);
         }
     }, []);
     return (

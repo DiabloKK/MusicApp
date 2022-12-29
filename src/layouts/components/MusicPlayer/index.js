@@ -15,6 +15,7 @@ import MenuPlaylist from '~/components/MenuPlaylist';
 import { CiVolumeHigh, CiVolumeMute } from 'react-icons/ci';
 import { ProgressBar, ProgressBarColor } from '~/assets/Progressbar';
 import { AddPlayListIcon, DeleteIcon, PlayQueueIcon, MusicLiBraryIcon } from '~/assets/icons';
+import { PlayList } from '~/API/PlayList';
 import { Albums } from '~/API/Albums';
 
 import 'tippy.js/themes/light.css';
@@ -147,6 +148,8 @@ function MusicPlayer({  fullView = false, hideOnClick = false }) {
     const nextSong = async () => {
         var Songs;
 
+        console.log("AAAAAAAAAAAAAA");
+
         if (path.includes('musicLibrary')) {
             Songs = await loadListMusic();
         }
@@ -178,7 +181,8 @@ function MusicPlayer({  fullView = false, hideOnClick = false }) {
             Songs = await loadQueueMusic();
         }
         if (path.includes('playList')) {
-            Songs = await loadListMusic();
+            const id = path.slice(11);
+            Songs = await loadPlayListMusic(id);
         }
         if (path === '/') {
             Songs = await loadRecentMusic();
@@ -212,12 +216,14 @@ function MusicPlayer({  fullView = false, hideOnClick = false }) {
             Songs = await loadQueueMusic();
         }
         if (path.includes('playList')) {
-            Songs = await loadListMusic();
+            const id = path.slice(11);
+            Songs = await loadPlayListMusic(id);
         }
         if (path === '/') {
             Songs = await loadRecentMusic();
             Songs.reverse();
         }
+        console.log("AAAAAAAAAAA");
         console.log(Songs);
 
         interval.current = setInterval(async () => {
@@ -392,7 +398,7 @@ function MusicPlayer({  fullView = false, hideOnClick = false }) {
                             {isAddPlaylist && (
                                 <Tippy delay={[0, 200]} content="Add Playlist" placement="top" theme="light">
                                     <MenuPlaylist
-                                        items={Albums}
+                                        items={PlayList}
                                         visible={visible}
                                         onClickOutside={() => setVisible(false)}
                                     >
