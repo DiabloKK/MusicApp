@@ -12,7 +12,7 @@ const addMusic = async () => {
 
     const array_music = [];
     array_pathFile.forEach(async (path) => {
-        const infoFile = await saveUrl(path + '\n');
+        const infoFile = await saveUrl(path);
         array_music.push(infoFile);
     });
 
@@ -204,7 +204,7 @@ const saveUrl = async (url) => {
 
 const appendUrlIntoFile = async (url) =>
     new Promise((resolve, reject) => {
-        fs.appendFile('/home/noir/Desktop/PBL4-4/MusicApp/src/API/listUrlMusic.txt', url, (err) => {
+        fs.appendFile('/home/noir/Desktop/PBL4-4/MusicApp/src/API/listUrlMusic.txt', url + '\n', (err) => {
             if (err) {
                 console.log('fileMP3Handle: inside mehtod appendUrlIntoFile(), loi khi them url vao file: ' + err);
             } else {

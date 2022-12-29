@@ -10,7 +10,17 @@ import { useState, useEffect, useRef } from 'react';
 const cx = classNames.bind(styles);
 
 const ModalDelete = ({ setIsOpen, song }) => {
-    const { deleteMusic, loadListMusic,loadRecentMusic, loadLoveMusic,deleteQueueMusic, deleteRecentMusic } = useFileMP3Store();
+    const {
+        deleteMusic,
+        loadListMusic,
+        loadRecentMusic,
+        loadLoveMusic,
+        deleteQueueMusic,
+        deleteRecentMusic,
+        deleteMusicPlaylist,
+        loadPlayListMusic,
+        loadQueueMusic,
+    } = useFileMP3Store();
     const [songs, setSongs] = useState([]);
     const context = useContext(SongContext);
 
@@ -20,33 +30,38 @@ const ModalDelete = ({ setIsOpen, song }) => {
     useEffect(() => {
         const type = '';
         const load = async () => {
-            var list;
-            switch (type) {
-                case 'home':
-                    list = await loadRecentMusic();
-                    // list.reverse();
+            var Songs;
 
-                    break;
-                case 'love':
-                    list = await loadLoveMusic();
-                    break;
-                default:
-                    list = await loadListMusic();
+            if (path.includes('musicLibrary')) {
+                Songs = await loadListMusic();
+                const id = path.slice(22);
+                if (path.includes('albums')) {
+                    Songs = context.ListAlbum.find((song) => song.id == id).Songs;
+                }
             }
-
-            setSongs(list);
+            if (path.includes('playQueue')) {
+                Songs = await loadQueueMusic();
+            }
+            if (path.includes('playList')) {
+                const id = path.slice(11);
+                Songs = await loadPlayListMusic(id);
+            }
+            if (path === '/') {
+                Songs = await loadRecentMusic();
+                Songs.reverse();
+            }
+            console.log(Songs);
+            setSongs(Songs);
         };
-
         load();
     }, []);
 
     const nextSong = async () => {
-        if(context.pathSong === path && context.song.id === song.id){
-            if(song.id === songs.length){
-                context.ChangeSong(songs[0])
-            }
-            else{
-                songs[song.id] = {...songs[song.id],id: song.id}
+        if (context.pathSong === path && context.song.id === song.id) {
+            if (song.id === songs.length) {
+                context.ChangeSong(songs[0]);
+            } else {
+                songs[song.id] = { ...songs[song.id], id: song.id };
                 context.ChangeSong(songs[song.id]);
             }
         }
@@ -72,14 +87,21 @@ const ModalDelete = ({ setIsOpen, song }) => {
                                 onClick={(e) => {
                                     if (path.includes('musicLibrary')) {
                                         deleteMusic(song.SourceFile);
+                                        if(path.includes('albums')) {
+                                            
+                                        }
                                     }
                                     if (path.includes('playQueue')) {
                                         deleteQueueMusic(song.SourceFile);
                                     }
-                                        if (path.includes('playList')) {
+                                    if (path.includes('playList')) {
+                                        const id = path.slice(11);
+                                        console.log(id);
+                                        var name = context.ListPlaylist.find((song) => song.id === id).albumName;
+                                        deleteMusicPlaylist(name, song.SourceFile);
                                     }
                                     if (path === '/') {
-                                        deleteRecentMusic(song.SourceFile);    
+                                        deleteRecentMusic(song.SourceFile);
                                     }
                                     let count = context.count + 1;
                                     context.ChangeCount(count);

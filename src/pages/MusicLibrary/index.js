@@ -9,12 +9,14 @@ import { useFileMP3Store } from '~/store/useFileMP3Store';
 import { Routes, Route } from 'react-router-dom';
 import AblumList from '~/components/AlbumList';
 import ArtistList from '~/components/ArtistList';
+import { SongContext } from '~/hooks/SongContext';
+import { useContext } from 'react';
 
 const cx = classNames.bind(styles);
 
 function MusicLibrary() {
-
-    const {loadListMusic} = useFileMP3Store();
+    const context = useContext(SongContext);
+    const { loadListMusic } = useFileMP3Store();
     window.Songs = loadListMusic();
 
     return (
@@ -25,10 +27,10 @@ function MusicLibrary() {
             <div className={cx('content')}>
                 <Routes>
                     <Route path="/" element={<AudioList />} />
-                    <Route path="/albums" element={<AblumList type="albums" />} />
-                    <Route path="/albums/@:idAblum" element={<AudioList type='albums' />} />
+                    <Route path="/albums" element={<AblumList Albums={context.ListAlbum} />} />
+                    <Route path="/albums/@:idAblum" element={<AudioList type="albums" />} />
                     <Route path="/artists" element={<ArtistList />} />
-                    <Route path="/artists/@:idAblum" element={<AudioList type='artist' />} />
+                    <Route path="/artists/@:idAblum" element={<AudioList type="artists" />} />
                 </Routes>
             </div>
         </div>

@@ -6,15 +6,18 @@ import MenuItem from './MenuItem';
 import Button from '~/components/Button';
 import CreatePlaylist from '~/components/CreatePlaylist';
 import { UploadIcon } from '~/assets/icons';
-
+import { useFileMP3Store } from '~/store/useFileMP3Store';
 import styles from './Menu.module.scss';
 import { useState } from 'react';
+import { SongContext } from '~/hooks/SongContext';
+import { useContext } from 'react';
 
 const cx = classNames.bind(styles);
 
 const defaultFn = () => {};
 
 function MenuPlaylist({
+    song,
     children,
     items = [],
     visible = false,
@@ -22,13 +25,26 @@ function MenuPlaylist({
     onChange = defaultFn,
     onClickOutside,
 }) {
+    const { addMusicPlayList } = useFileMP3Store();
     const [isOpenP, setIsOpenP] = useState(false);
     const [history, setHistory] = useState([{ data: items }]);
     const current = history[history.length - 1];
+    const context = useContext(SongContext);
 
     const renderItems = () => {
         return current.data.map((item, index) => {
-            return <MenuItem key={index} data={item} onClick={() => {}} />;
+            return (
+                <MenuItem
+                    key={index}
+                    data={item}
+                    onClick={(e) => {
+                        addMusicPlayList(item.albumName, song.SourceFile);
+                        let count = context.count + 1;
+                        context.ChangeCount(count);
+                        e.stopPropagation();
+                    }}
+                />
+            );
         });
     };
     return (

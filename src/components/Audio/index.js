@@ -12,7 +12,7 @@ import 'tippy.js/dist/tippy.css';
 
 import { SongContext } from '~/hooks/SongContext';
 import { useContext } from 'react';
-import { PlayList } from '~/API/PlayList';
+import { Albums } from '~/API/Albums';
 import ModalDelete from '~/components/ModalDelete';
 
 const cx = classNames.bind(styles);
@@ -24,6 +24,10 @@ function Audio({ song, ad }) {
     const [isAddToQueue, setIsAddToQueue] = useState(true);
     const [isAddMusicLibrary, setIsAddMusicLibrary] = useState(true);
     const [isAddPlaylist, setIsAddPlaylist] = useState(true);
+    const [isDelete, setIsDelete] = useState(true);
+    if (context.pathSong.includes('artists') || context.pathSong.includes('albums')) {
+        setIsDelete(false);
+    }
 
     const { addQueueMusic } = useFileMP3Store();
 
@@ -31,7 +35,6 @@ function Audio({ song, ad }) {
     const path = route.pathname;
 
     useEffect(() => {
-
         if (path.includes('musicLibrary')) {
             setIsAddMusicLibrary(false);
             setIsAddToQueue(true);
@@ -48,7 +51,7 @@ function Audio({ song, ad }) {
             setIsAddPlaylist(false);
         }
         if (path === '/') {
-            setIsAddMusicLibrary(true);
+            setIsAddMusicLibrary(false);
             setIsAddToQueue(true);
             setIsAddPlaylist(false);
         }
@@ -77,7 +80,7 @@ function Audio({ song, ad }) {
             </div>
             <div className={cx('listIcon')}>
                 {isAddToQueue && (
-                    <Tippy delay={[0, 200]} content="Add queue" placement="top" theme="light">
+                    <Tippy delay={[0, 200]} content="Add to queue" placement="top" theme="light">
                         <span
                             className={cx('icon')}
                             onClick={(event) => {
@@ -89,20 +92,27 @@ function Audio({ song, ad }) {
                         </span>
                     </Tippy>
                 )}
-                <Tippy delay={[0, 200]} content="Delete" placement="top" theme="light">
-                    <span
-                        className={cx('icon')}
-                        onClick={(event) => {
-                            setIsOpenD(true);
-                            event.stopPropagation();
-                        }}
-                    >
-                        <DeleteIcon />
-                    </span>
-                </Tippy>
+                {isDelete && (
+                    <Tippy delay={[0, 200]} content="Delete" placement="top" theme="light">
+                        <span
+                            className={cx('icon')}
+                            onClick={(event) => {
+                                setIsOpenD(true);
+                                event.stopPropagation();
+                            }}
+                        >
+                            <DeleteIcon />
+                        </span>
+                    </Tippy>
+                )}
                 {isAddPlaylist && (
-                    <Tippy delay={[0, 200]} content="Add Playlist" placement="top" theme="light">
-                        <MenuPlaylist items={PlayList} visible={visible} onClickOutside={() => setVisible(false)}>
+                    <Tippy delay={[0, 200]} content="Add to Playlist" placement="top" theme="light">
+                        <MenuPlaylist
+                            items={context.ListPlaylist}
+                            song={song}
+                            visible={visible}
+                            onClickOutside={() => setVisible(false)}
+                        >
                             <span
                                 className={cx('icon')}
                                 onClick={(event) => {

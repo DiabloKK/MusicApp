@@ -2,10 +2,10 @@ import classNames from 'classnames/bind';
 import styles from './MusicPlayer.module.scss';
 import moment from 'moment';
 import { useContext } from 'react';
+import { SongContext } from '~/hooks/SongContext';
 import { useEffect, useRef, useState } from 'react';
 
 import { useFileMP3Store } from '~/store/useFileMP3Store';
-import { SongContext } from '~/hooks/SongContext';
 
 import { BsPlayCircleFill, BsSkipEndFill, BsSkipStartFill, BsShuffle, BsPauseCircleFill } from 'react-icons/bs';
 import { IoIosRepeat } from 'react-icons/io';
@@ -15,8 +15,7 @@ import MenuPlaylist from '~/components/MenuPlaylist';
 import { CiVolumeHigh, CiVolumeMute } from 'react-icons/ci';
 import { ProgressBar, ProgressBarColor } from '~/assets/Progressbar';
 import { AddPlayListIcon, DeleteIcon, PlayQueueIcon, MusicLiBraryIcon } from '~/assets/icons';
-import { PlayList } from '~/API/PlayList';
-
+import { Albums } from '~/API/Albums';
 
 import 'tippy.js/themes/light.css';
 import Tippy from '@tippyjs/react';
@@ -25,7 +24,7 @@ import 'tippy.js/dist/tippy.css';
 import { useLocation } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
-function MusicPlayer({  fullView = false, hideOnClick = false }) {
+function MusicPlayer({ fullView = false, hideOnClick = false }) {
     const context = useContext(SongContext);
 
     const {
@@ -38,9 +37,9 @@ function MusicPlayer({  fullView = false, hideOnClick = false }) {
         jumpTimeMusic,
         loadRecentMusic,
         addRecentMusic,
-        loadPlayListMusic
+        loadPlayListMusic,
     } = useFileMP3Store();
-    const [check, setCheck] = useState(false)
+    const [check, setCheck] = useState(false);
     const [currentime, setCurrentime] = useState(0);
     const [percentPB, setPercentPB] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -48,6 +47,7 @@ function MusicPlayer({  fullView = false, hideOnClick = false }) {
     const [isAddToQueue, setIsAddToQueue] = useState(true);
     const [isAddMusicLibrary, setIsAddMusicLibrary] = useState(true);
     const [isAddPlaylist, setIsAddPlaylist] = useState(true);
+    const [isDelete, setIsDelete] = useState(true);
     const [visible, setVisible] = useState(false);
     const [isOpenD, setIsOpenD] = useState(false);
 
@@ -71,15 +71,14 @@ function MusicPlayer({  fullView = false, hideOnClick = false }) {
             await addRecentMusic(context.song.SourceFile);
             setIsPlaying((isPlaying) => !isPlaying);
             runTime();
-            setCheck(true)
-
+            setCheck(true);
         } else {
             if (!isPause) clearInterval(interval.current);
             else runTime();
 
             await togglePause();
             setIsPause(!isPause);
-            setCheck(true)
+            setCheck(true);
         }
     };
 
@@ -89,11 +88,13 @@ function MusicPlayer({  fullView = false, hideOnClick = false }) {
         return totalTime;
     };
     useEffect(() => {
-       
         if (context.pathSong.includes('musicLibrary')) {
             setIsAddMusicLibrary(false);
             setIsAddToQueue(true);
             setIsAddPlaylist(true);
+            if (context.pathSong.includes('artists') || context.pathSong.includes('albums')) {
+                setIsDelete(false);
+            }
         }
         if (context.pathSong.includes('playQueue')) {
             setIsAddMusicLibrary(false);
@@ -110,7 +111,7 @@ function MusicPlayer({  fullView = false, hideOnClick = false }) {
             setIsAddToQueue(true);
             setIsAddPlaylist(false);
         }
-    },[context.song]);
+    }, [context.song]);
 
     useEffect(() => {
         if (isPlaying && !isPause) {
@@ -119,8 +120,8 @@ function MusicPlayer({  fullView = false, hideOnClick = false }) {
                 setPercentPB(percent);
                 progressbarcolor.current.style.cssText = `width: ${percent * 351}px`;
                 setCurrentime(currentime + 1);
-                if(currentime === getTotalTime()*10 ){
-                    setCheck((check)=>!check)
+                if (currentime === getTotalTime() * 10) {
+                    setCheck((check) => !check);
                 }
             }, 100);
 
@@ -132,17 +133,15 @@ function MusicPlayer({  fullView = false, hideOnClick = false }) {
     }, [fullView]);
 
     useEffect(() => {
-
-        if (check&&context.song.id !== undefined) {
+        if (check && context.song.id !== undefined) {
             songCurrent.current = context.song.id;
             playRepeat();
         }
-    },[context.song]);
+    }, [context.song]);
 
     useEffect(() => {
         setCurrentime(0);
         progressbarcolor.current.style.cssText = `width: 0px`;
-        
     }, [context.song]);
 
     const nextSong = async () => {
@@ -150,6 +149,14 @@ function MusicPlayer({  fullView = false, hideOnClick = false }) {
 
         if (path.includes('musicLibrary')) {
             Songs = await loadListMusic();
+            const id = path.slice(22);
+            if (path.includes('albums')) {
+                Songs = context.ListAlbum.find((song) => song.id == id).Songs;
+            }
+            if (path.includes('artist')) {
+                Songs = context.ListArtist[id - 1].Songs;
+                console.log(Songs);
+            }
         }
         if (path.includes('playQueue')) {
             Songs = await loadQueueMusic();
@@ -173,7 +180,17 @@ function MusicPlayer({  fullView = false, hideOnClick = false }) {
         var Songs;
 
         if (path.includes('musicLibrary')) {
+            const id = path.slice(22);
             Songs = await loadListMusic();
+            if (path.includes('albums')) {
+                Songs = context.ListAlbum.find((song) => song.id == id).Songs;
+                console.log(Songs);
+            }
+            if (path.includes('artist')) {
+                Songs = context.ListArtist[id - 1].Songs;
+
+                console.log(Songs);
+            }
         }
         if (path.includes('playQueue')) {
             Songs = await loadQueueMusic();
@@ -195,7 +212,7 @@ function MusicPlayer({  fullView = false, hideOnClick = false }) {
     const playRepeat = async () => {
         stopMusic();
         playMusic(context.song.SourceFile);
-        addRecentMusic(context.song.SourceFile);
+        if (!(path === '/')) addRecentMusic(context.song.SourceFile);
         setCurrentime(0);
         clearInterval(interval.current);
 
@@ -207,10 +224,17 @@ function MusicPlayer({  fullView = false, hideOnClick = false }) {
     const runTime = async () => {
         var Songs;
 
-        console.log(path);
-
         if (path.includes('musicLibrary')) {
+            const id = path.slice(22);
             Songs = await loadListMusic();
+            if (path.includes('albums')) {
+                Songs = context.ListAlbum.find((song) => song.id == id).Songs;
+            }
+            if (path.includes('artist')) {
+                Songs = context.ListArtist[id - 1].Songs;
+
+                console.log(Songs);
+            }
         }
         if (path.includes('playQueue')) {
             Songs = await loadQueueMusic();
@@ -223,7 +247,6 @@ function MusicPlayer({  fullView = false, hideOnClick = false }) {
             Songs = await loadRecentMusic();
             Songs.reverse();
         }
-        console.log("AAAAAAAAAAA");
         console.log(Songs);
 
         interval.current = setInterval(async () => {
@@ -291,7 +314,7 @@ function MusicPlayer({  fullView = false, hideOnClick = false }) {
     };
 
     return (
-        <>  
+        <>
             {!fullView ? (
                 <div className={cx('musicPlayer')}>
                     <div className={cx('m-container')}>
@@ -372,7 +395,7 @@ function MusicPlayer({  fullView = false, hideOnClick = false }) {
 
                         <div className={cx('listIcon')}>
                             {isAddToQueue && (
-                                <Tippy delay={[0, 200]} content="Add queue" placement="top" theme="light">
+                                <Tippy delay={[0, 200]} content="Add to queue" placement="top" theme="light">
                                     <span
                                         className={cx('icon')}
                                         onClick={(event) => {
@@ -384,21 +407,23 @@ function MusicPlayer({  fullView = false, hideOnClick = false }) {
                                     </span>
                                 </Tippy>
                             )}
-                            <Tippy delay={[0, 200]} content="Delete" placement="top" theme="light">
-                                <span
-                                    className={cx('icon')}
-                                    onClick={(event) => {
-                                        setIsOpenD(true);
-                                        event.stopPropagation();
-                                    }}
-                                >
-                                    <DeleteIcon />
-                                </span>
-                            </Tippy>
+                            {isDelete && (
+                                <Tippy delay={[0, 200]} content="Delete" placement="top" theme="light">
+                                    <span
+                                        className={cx('icon')}
+                                        onClick={(event) => {
+                                            setIsOpenD(true);
+                                            event.stopPropagation();
+                                        }}
+                                    >
+                                        <DeleteIcon />
+                                    </span>
+                                </Tippy>
+                            )}
                             {isAddPlaylist && (
-                                <Tippy delay={[0, 200]} content="Add Playlist" placement="top" theme="light">
+                                <Tippy delay={[0, 200]} content="Add to Playlist" placement="top" theme="light">
                                     <MenuPlaylist
-                                        items={PlayList}
+                                        items={Albums}
                                         visible={visible}
                                         onClickOutside={() => setVisible(false)}
                                     >
@@ -416,7 +441,7 @@ function MusicPlayer({  fullView = false, hideOnClick = false }) {
                             )}
                             {isOpenD && <ModalDelete setIsOpen={setIsOpenD} />}
                             {isAddMusicLibrary && (
-                                <Tippy delay={[0, 200]} content="Add Library" placement="top" theme="light">
+                                <Tippy delay={[0, 200]} content="Add to Library" placement="top" theme="light">
                                     <span
                                         className={cx('icon')}
                                         onClick={(event) => {
