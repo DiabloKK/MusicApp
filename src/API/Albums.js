@@ -19,12 +19,14 @@ const getListAlbum = async () => {
             artist.id = Artists.length + 1;
             artist.artist = name;
             artist.Songs = [];
+            listMusic[i].id = 1;
             artist.Songs.push(listMusic[i]);
             artist.imgSrc = listMusic[i]["Picture"];
 
             Artists.push(artist);
         } else {
             const index = nameArtist.indexOf(name);
+            listMusic[i].id = Artists[index].Songs.length + 1;
             Artists[index].Songs.push(listMusic[i]);
         }
 
@@ -38,12 +40,14 @@ const getListAlbum = async () => {
             album.id = Albums.length + 1;
             album.albumName = name;
             album.Songs = [];
+            listMusic[i].id = 1;
             album.Songs.push(listMusic[i]);
             album.imgSrc = listMusic[i]["Picture"];
 
             Albums.push(album);
         } else {
             const index = nameAlbum.indexOf(name);
+            listMusic[i].id = Artists[index].Songs.length + 1;
             Albums[index].Songs.push(listMusic[i]);
         }
     }
