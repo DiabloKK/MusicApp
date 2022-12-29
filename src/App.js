@@ -1,5 +1,5 @@
-import { Fragment, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Fragment} from 'react';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from './routes';
 import { DefaultLayout } from './layouts';
 import { SongProvider } from '~/hooks/SongContext';
@@ -13,9 +13,6 @@ function App() {
     document.getElementById("volume").value = parseInt(value);
     }, 100);
 
-    // useEffect(() => {
-    //     window.location = '/';
-    // },[]);
 
     return (
         // <h1>Hello</h1>

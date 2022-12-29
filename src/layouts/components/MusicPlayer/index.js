@@ -21,6 +21,8 @@ import 'tippy.js/themes/light.css';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 
+import { useLocation } from 'react-router-dom';
+
 const cx = classNames.bind(styles);
 function MusicPlayer({  fullView = false, hideOnClick = false }) {
     const context = useContext(SongContext);
@@ -58,6 +60,9 @@ function MusicPlayer({  fullView = false, hideOnClick = false }) {
     const isShuffle = useRef(false);
     const trackRef = useRef();
     const volumeRef = useRef();
+
+    const route = useLocation();
+    const path = route.pathname;
 
     const handleTogglePlayMusic = async () => {
         if (!isPlaying) {
@@ -141,7 +146,6 @@ function MusicPlayer({  fullView = false, hideOnClick = false }) {
 
     const nextSong = async () => {
         var Songs;
-        const path = window.location.pathname;
 
         if (path.includes('musicLibrary')) {
             Songs = await loadListMusic();
@@ -150,7 +154,6 @@ function MusicPlayer({  fullView = false, hideOnClick = false }) {
             Songs = await loadQueueMusic();
         }
         if (path.includes('playList')) {
-            const path = window.location.pathname;
             const id = path.slice(11);
             Songs = await loadPlayListMusic(id);
         }
@@ -167,7 +170,6 @@ function MusicPlayer({  fullView = false, hideOnClick = false }) {
 
     const backSong = async () => {
         var Songs;
-        const path = window.location.pathname;
 
         if (path.includes('musicLibrary')) {
             Songs = await loadListMusic();
@@ -202,7 +204,6 @@ function MusicPlayer({  fullView = false, hideOnClick = false }) {
 
     const runTime = async () => {
         var Songs;
-        const path = window.location.pathname;
 
         if (path.includes('musicLibrary')) {
             Songs = await loadListMusic();

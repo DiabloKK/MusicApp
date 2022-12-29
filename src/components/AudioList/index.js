@@ -5,6 +5,7 @@ import { SongContext } from '~/hooks/SongContext';
 import { useContext } from 'react';
 import { useEffect } from 'react';
 import { useFileMP3Store } from '~/store/useFileMP3Store';
+import { useLocation } from 'react-router-dom';
 
 import { useState } from 'react';
 import { Albums } from '~/API/Albums';
@@ -15,6 +16,9 @@ function AudioList({ type = 'musicLibrary' }) {
     const { loadListMusic, loadRecentMusic, loadQueueMusic } = useFileMP3Store();
     const [songs, setSongs] = useState([]);
     const context = useContext(SongContext);
+
+    const route = useLocation();
+    const path = route.pathname;
 
     useEffect(() => {
         const load = async () => {
@@ -40,7 +44,6 @@ function AudioList({ type = 'musicLibrary' }) {
     }, [context.count]);
 
     useEffect(() => {
-        const path = window.location.pathname;
         //console.log(path);
         if (path.includes('musicLibrary/albums/@')) {
             const id = path.slice(22);

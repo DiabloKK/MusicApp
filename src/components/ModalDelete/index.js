@@ -3,15 +3,20 @@ import styles from './ModalDelete.module.scss';
 import { useFileMP3Store } from '~/store/useFileMP3Store';
 import { SongContext } from '~/hooks/SongContext';
 import { useContext } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import { useState, useEffect, useRef } from 'react';
 
 const cx = classNames.bind(styles);
 
 const ModalDelete = ({ setIsOpen, song }) => {
-    const { deleteMusic, stopMusic, loadListMusic, loadQueueMusic,loadRecentMusic, loadLoveMusic,deleteQueueMusic, deleteRecentMusic } = useFileMP3Store();
+    const { deleteMusic, loadListMusic,loadRecentMusic, loadLoveMusic,deleteQueueMusic, deleteRecentMusic } = useFileMP3Store();
     const [songs, setSongs] = useState([]);
     const context = useContext(SongContext);
+
+    const route = useLocation();
+    const path = route.pathname;
+
     useEffect(() => {
         const type = '';
         const load = async () => {
@@ -36,7 +41,7 @@ const ModalDelete = ({ setIsOpen, song }) => {
     }, []);
 
     const nextSong = async () => {
-        if(context.pathSong === window.location.pathname && context.song.id === song.id){
+        if(context.pathSong === path && context.song.id === song.id){
             if(song.id === songs.length){
                 context.ChangeSong(songs[0])
             }
@@ -65,7 +70,6 @@ const ModalDelete = ({ setIsOpen, song }) => {
                             <button
                                 className={cx('deleteBtn')}
                                 onClick={(e) => {
-                                    const path = window.location.pathname;
                                     if (path.includes('musicLibrary')) {
                                         deleteMusic(song.SourceFile);
                                     }

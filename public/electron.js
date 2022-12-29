@@ -38,7 +38,7 @@ function createWindow() {
     execAsync('mocp -S');
 
     //
-    fs.writeFileSync('/home/noir/Desktop/PBL4-4/MusicApp/data/queueMusic.txt', '');
+    fs.writeFileSync('/home/noir/Desktop/PBL4-4/MusicApp/src/API/queueMusic.txt', '');
 
     // Create the browser window.
     const window = new BrowserWindow({

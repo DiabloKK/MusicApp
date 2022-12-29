@@ -4,6 +4,7 @@ import { AddPlayListIcon, AddPlayQueueIcon, DeleteIcon, PlayQueueIcon, MusicLiBr
 import MenuPlaylist from '~/components/MenuPlaylist';
 import { useState, useEffect } from 'react';
 import { useFileMP3Store } from '~/store/useFileMP3Store';
+import { useLocation } from 'react-router-dom';
 
 import 'tippy.js/themes/light.css';
 import Tippy from '@tippyjs/react';
@@ -11,10 +12,8 @@ import 'tippy.js/dist/tippy.css';
 
 import { SongContext } from '~/hooks/SongContext';
 import { useContext } from 'react';
-import { CiVolumeHigh } from 'react-icons/ci';
 import { Albums } from '~/API/Albums';
 import ModalDelete from '~/components/ModalDelete';
-import CreatePlaylist from '~/components/CreatePlaylist';
 
 const cx = classNames.bind(styles);
 
@@ -28,8 +27,10 @@ function Audio({ song, ad }) {
 
     const { addQueueMusic } = useFileMP3Store();
 
+    const route = useLocation();
+    const path = route.pathname;
+
     useEffect(() => {
-        const path = window.location.pathname;
 
         if (path.includes('musicLibrary')) {
             setIsAddMusicLibrary(false);
@@ -56,14 +57,13 @@ function Audio({ song, ad }) {
     return (
         <div
             className={cx(`Audio`, {
-                active: context.pathSong === window.location.pathname && context.song.id === song.id,
+                active: context.pathSong === path && context.song.id === song.id,
             })}
             onClick={() => {
                 context.ChangeSong(song);
-                console.log(window.location.pathname);
-                context.ChangePathSong(window.location.pathname);
+                context.ChangePathSong(path);
 
-                console.log(`Audio ${context.pathSong === window.location.pathname ? 'active' : ''}`);
+                console.log(`Audio ${context.pathSong === path ? 'active' : ''}`);
             }}
         >
             <div className={cx('in4-Audio')}>
