@@ -68,3 +68,58 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+3.2.	Kết quả chạy chương trình
+3.2.1.	Giao diện trang Home
+![image](https://user-images.githubusercontent.com/94093871/234210060-9be97992-35e8-4d9c-b6b3-513cb92f1933.png)
+
+ 
+Hình 17. Giao diện hiển thị các bài hát nghe gần đây.
+
+ 
+Hình 18. Giao diện chế độ Music Player
+
+ 
+Hình 19. Giao diện chế độ chỉ hiển thị danh sách bài hát
+3.2.2.	Giao diện trang Music Library
+ 
+Hình 20. Giao diện hiển thị các bài hát trong Music library
+
+ 
+Hình 21. Giao diện thêm file âm thanh
+
+ 
+Hình 22. Giao diện hiển thị danh sách các album
+
+ 
+Hình 23. Giao diện hiển thị danh sách các bài hát trong album
+
+ 
+Hình 24. Giao diện hiển thị danh sách các nghệ sĩ
+
+ 
+Hình 25. Giao diện hiện danh sách các bài hát của nghệ sĩ
+
+ 
+Hình 26. Giao diện khi xóa đi một bài hát
+
+ 
+Hình 27. Giao diện khi tạo thêm một Playlist
+
+ 
+Hình 28. Giao diện thêm bài hát vào Playlist
+
+3.2.3.	Giao diện trang Play Queue
+ 
+Hình 29. Giao diện hiển thị danh sách các bài hát chờ
+
+3.2.4.	Giao diện trang Playlist
+ 
+Hình 30. Giao diện hiển thị danh sách các Playlist
+
+ 
+Hình 31. Giao diện tạo thêm Playlist
+
+ 
+Hình 32. Giao diện hiển thị các bài hát trong một Playlist
+
