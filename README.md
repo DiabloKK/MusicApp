@@ -76,50 +76,65 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
  
 Hình 17. Giao diện hiển thị các bài hát nghe gần đây.
 
- 
+ ![image](https://user-images.githubusercontent.com/94093871/234210236-ac51427c-2db2-4631-b043-ba7c5836a4d8.png)
+
 Hình 18. Giao diện chế độ Music Player
 
- 
+ ![image](https://user-images.githubusercontent.com/94093871/234210263-cb70341d-cc1b-4723-abb8-a5b73a385c68.png)
+
 Hình 19. Giao diện chế độ chỉ hiển thị danh sách bài hát
 3.2.2.	Giao diện trang Music Library
- 
+ ![image](https://user-images.githubusercontent.com/94093871/234210301-3a49e7da-f340-4dda-9450-2053f28d0f0a.png)
 Hình 20. Giao diện hiển thị các bài hát trong Music library
+
+![image](https://user-images.githubusercontent.com/94093871/234210384-235c5053-195b-4423-aaba-7a39cf4a34ce.png)
 
  
 Hình 21. Giao diện thêm file âm thanh
 
- 
+ ![image](https://user-images.githubusercontent.com/94093871/234210408-33358985-3230-40ef-a7a5-49b81cc10315.png)
+
 Hình 22. Giao diện hiển thị danh sách các album
+![image](https://user-images.githubusercontent.com/94093871/234210434-718e3777-a98f-4a0c-a751-7c862225941e.png)
 
  
 Hình 23. Giao diện hiển thị danh sách các bài hát trong album
+![image](https://user-images.githubusercontent.com/94093871/234210467-6859e2c0-d5d2-4f9a-89fb-d5f59853178c.png)
 
  
 Hình 24. Giao diện hiển thị danh sách các nghệ sĩ
 
- 
+ ![image](https://user-images.githubusercontent.com/94093871/234210494-b1d72973-8584-4207-a2c5-69acb54cc3b6.png)
+
 Hình 25. Giao diện hiện danh sách các bài hát của nghệ sĩ
 
- 
+ ![image](https://user-images.githubusercontent.com/94093871/234210543-7014a002-3de7-4428-a71e-4e106af1e9da.png)
+
 Hình 26. Giao diện khi xóa đi một bài hát
+![image](https://user-images.githubusercontent.com/94093871/234210587-de06fce3-09b0-4de8-b961-db0ec55ca2b4.png)
 
  
 Hình 27. Giao diện khi tạo thêm một Playlist
+![image](https://user-images.githubusercontent.com/94093871/234210638-17c300be-3487-438e-bcc3-fa72aa2af81c.png)
 
  
 Hình 28. Giao diện thêm bài hát vào Playlist
 
+
 3.2.3.	Giao diện trang Play Queue
- 
+ ![image](https://user-images.githubusercontent.com/94093871/234210675-a8e80ec0-d3c5-405d-a563-d33cc1e75db5.png)
 Hình 29. Giao diện hiển thị danh sách các bài hát chờ
 
 3.2.4.	Giao diện trang Playlist
- 
+ ![image](https://user-images.githubusercontent.com/94093871/234210754-a9a738ae-e720-450c-95d3-eaadf38293ef.png)
+
 Hình 30. Giao diện hiển thị danh sách các Playlist
 
- 
+ ![image](https://user-images.githubusercontent.com/94093871/234210779-6753351b-ba6c-4204-b50d-a7e4d0688864.png)
+
 Hình 31. Giao diện tạo thêm Playlist
 
- 
+ ![image](https://user-images.githubusercontent.com/94093871/234210809-2be48789-d266-4ed2-b362-d401abd150ee.png)
+
 Hình 32. Giao diện hiển thị các bài hát trong một Playlist
 
